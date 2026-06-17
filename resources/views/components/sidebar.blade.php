@@ -28,7 +28,7 @@
     {{-- Master Data --}}
     <div
       x-data="{
-        open: {{ request()->is("master/*") || request()->routeIs("rooms.*") ? "true" : "false" }},
+        open: {{ request()->routeIs("rooms.*") || request()->routeIs("wbps.*") ? "true" : "false" }},
       }"
     >
       <button
@@ -50,9 +50,9 @@
         class="mt-1 ml-4 space-y-1 border-l border-gray-700 pl-4"
       >
         <a
-          href="/master/inmates"
+          href="{{ route('wbps.index') }}"
           wire:navigate
-          class="{{ request()->is("master/inmates*") ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white" }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
+          class="{{ request()->routeIs("wbps.*") ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white" }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
         >
           <x-icons.users class="h-4 w-4" />
           Narapidana
