@@ -1,0 +1,78 @@
+table users {
+  id bigint [pk]
+  name varchar
+  email varchar [unique]
+  password varchar
+
+  role user_role
+
+  created_at timestamp
+  updated_at timestamp
+}
+
+table inmates {
+  id bigint [pk]
+
+  registration_number varchar [unique]
+  name varchar
+
+  gender gender_type
+
+  current_room_id bigint [null]
+
+  created_at timestamp
+  updated_at timestamp
+}
+
+table rooms {
+  id bigint [pk]
+
+  name varchar
+  block varchar [null]
+
+  capacity int
+  current_occupancy int [default: 0]
+
+  created_at timestamp
+  updated_at timestamp
+}
+
+table room_transfers {
+  id bigint [pk]
+
+  inmate_id bigint
+
+  room_from_id bigint
+  room_to_id bigint
+
+  transferred_at datetime
+
+  officer_name varchar
+  officer_signature longtext [null]
+
+  notes text [null]
+
+  created_by bigint
+
+  created_at timestamp
+  updated_at timestamp
+}
+
+enum user_role {
+  admin
+  officer
+}
+
+enum gender_type {
+  male
+  female
+}
+
+Ref: inmates.current_room_id > rooms.id
+
+Ref: room_transfers.inmate_id > inmates.id
+
+Ref: room_transfers.room_from_id > rooms.id
+Ref: room_transfers.room_to_id > rooms.id
+
+Ref: room_transfers.created_by > users.id
