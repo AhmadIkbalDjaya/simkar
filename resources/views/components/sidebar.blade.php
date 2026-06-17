@@ -114,7 +114,7 @@
     {{-- Reports --}}
     <div
       x-data="{
-        open: {{ request()->is("reports/*") || request()->is("reports") ? "true" : "false" }},
+        open: {{ request()->routeIs("reports.*") ? "true" : "false" }},
       }"
     >
       <button
@@ -136,9 +136,9 @@
         class="mt-1 ml-4 space-y-1 border-l border-gray-700 pl-4"
       >
         <a
-          href="/reports/transfers"
+          href="{{ route('reports.mutations') }}"
           wire:navigate
-          class="{{ request()->is("reports/transfers*") ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white" }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
+          class="{{ request()->routeIs("reports.mutations") ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white" }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
         >
           <x-icons.document class="h-4 w-4" />
           Laporan Mutasi
