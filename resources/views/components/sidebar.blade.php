@@ -53,7 +53,9 @@
 
     {{-- Master Data --}}
     <div
-      x-data="{ open: {{ request()->is("master/*") ? "true" : "false" }} }"
+      x-data="{
+        open: {{ request()->is("master/*") || request()->routeIs("rooms.*") ? "true" : "false" }},
+      }"
     >
       <button
         @click="open = !open"
@@ -119,9 +121,9 @@
           Narapidana
         </a>
         <a
-          href="/master/rooms"
+          href="{{ route('rooms.index') }}"
           wire:navigate
-          class="{{ request()->is("master/rooms*") ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white" }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
+          class="{{ request()->routeIs("rooms.*") ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white" }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
         >
           <svg
             class="h-4 w-4"
