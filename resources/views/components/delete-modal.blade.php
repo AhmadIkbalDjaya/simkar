@@ -1,4 +1,4 @@
-@props(['id' => 'delete-modal', 'title' => 'Hapus Data', 'message' => 'Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.'])
+@props(["id" => "delete-modal", "title" => "Hapus Data", "message" => "Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan."])
 
 <div
   x-data="{ open: false, loading: false }"
@@ -38,20 +38,7 @@
         <div
           class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-100"
         >
-          <svg
-            class="h-5 w-5 text-red-600"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
-            />
-          </svg>
+          <x-icons.exclamation-triangle class="h-5 w-5 text-red-600" />
         </div>
         <div>
           <h3 class="text-lg font-semibold text-gray-900">{{ $title }}</h3>
@@ -73,27 +60,7 @@
           class="inline-flex items-center rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700 disabled:opacity-50"
           :disabled="loading"
         >
-          <svg
-            x-show="loading"
-            class="mr-2 h-4 w-4 animate-spin"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              class="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              stroke-width="4"
-            ></circle>
-            <path
-              class="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-            ></path>
-          </svg>
+          <x-icons.spinner x-show="loading" class="mr-2 h-4 w-4 animate-spin" />
           Hapus
         </button>
       </div>
