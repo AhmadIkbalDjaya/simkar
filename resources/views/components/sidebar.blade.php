@@ -30,9 +30,9 @@
   <nav class="flex-1 space-y-1 overflow-y-auto px-3 py-4">
     {{-- Dashboard --}}
     <a
-      href="/"
+      href="{{ route('dashboard') }}"
       wire:navigate
-      class="{{ request()->is("/") ? "bg-gray-800 text-white" : "text-gray-300 hover:bg-gray-800 hover:text-white" }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors"
+      class="{{ request()->routeIs("dashboard") ? "bg-gray-800 text-white" : "text-gray-300 hover:bg-gray-800 hover:text-white" }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors"
     >
       <svg
         class="h-5 w-5"
