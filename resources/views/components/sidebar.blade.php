@@ -71,7 +71,7 @@
     {{-- Transfers --}}
     <div
       x-data="{
-        open: {{ request()->is("transfers/*") || request()->is("transfers") ? "true" : "false" }},
+        open: {{ request()->routeIs("mutations.*") ? "true" : "false" }},
       }"
     >
       <button
@@ -93,17 +93,17 @@
         class="mt-1 ml-4 space-y-1 border-l border-gray-700 pl-4"
       >
         <a
-          href="/transfers/create"
+          href="{{ route('mutations.create') }}"
           wire:navigate
-          class="{{ request()->is("transfers/create") ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white" }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
+          class="{{ request()->routeIs("mutations.create") ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white" }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
         >
           <x-icons.plus-circle class="h-4 w-4" />
           Buat Mutasi
         </a>
         <a
-          href="/transfers/history"
+          href="{{ route('mutations.index') }}"
           wire:navigate
-          class="{{ request()->is("transfers/history*") ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white" }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
+          class="{{ request()->routeIs("mutations.index") || request()->routeIs("mutations.show") ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white" }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
         >
           <x-icons.clock class="h-4 w-4" />
           Riwayat Mutasi
