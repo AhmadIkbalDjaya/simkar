@@ -11,6 +11,7 @@ use Livewire\Component;
 class Edit extends Component
 {
     public Room $room;
+
     public RoomForm $form;
 
     public function mount(Room $room): void

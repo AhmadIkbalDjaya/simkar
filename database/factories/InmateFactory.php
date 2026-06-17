@@ -16,7 +16,7 @@ class InmateFactory extends Factory
         $gender = fake()->randomElement(GenderType::cases());
 
         return [
-            'registration_number' => 'NPI-' . fake()->unique()->numerify('#####'),
+            'registration_number' => 'NPI-'.fake()->unique()->numerify('#####'),
             'name' => $gender === GenderType::Male ? fake()->name('male') : fake()->name('female'),
             'gender' => $gender,
             'current_room_id' => null,

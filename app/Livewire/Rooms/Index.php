@@ -34,6 +34,7 @@ class Index extends Component
     }
 
     public ?int $deleteId = null;
+
     public string $deleteName = '';
 
     public function confirmDelete(int $id, string $name): void

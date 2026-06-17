@@ -16,11 +16,17 @@ use Livewire\Component;
 class Dashboard extends Component
 {
     public int $totalInmates;
+
     public int $totalRooms;
+
     public int $totalCapacity;
+
     public int $currentOccupants;
+
     public int $transfersToday;
+
     public int $transfersThisMonth;
+
     public Collection $recentTransfers;
 
     public function mount(): void

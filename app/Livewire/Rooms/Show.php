@@ -12,7 +12,9 @@ use Livewire\Component;
 class Show extends Component
 {
     public Room $room;
+
     public Collection $occupants;
+
     public \Illuminate\Support\Collection $transfers;
 
     public function mount(Room $room): void
