@@ -9,7 +9,7 @@
     <x-icons.building class="h-8 w-8 text-indigo-400" />
     <div>
       <h1 class="text-lg font-semibold tracking-wide text-white">SIMKAR</h1>
-      <p class="text-xs text-gray-400">Manajemen Kamar</p>
+      {{-- <p class="text-xs text-gray-400">Manajemen Kamar</p> --}}
     </div>
   </div>
 
