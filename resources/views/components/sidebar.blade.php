@@ -183,9 +183,9 @@
   {{-- Bottom section --}}
   <div class="shrink-0 border-t border-gray-700 px-3 py-4">
     <a
-      href="/profile"
+      href="{{ route('profile') }}"
       wire:navigate
-      class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-300 transition-colors hover:bg-gray-800 hover:text-white"
+      class="{{ request()->routeIs('profile') ? 'bg-gray-800 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
     >
       <x-icons.user class="h-5 w-5" />
       Profil

@@ -15,7 +15,7 @@
   </div>
 
   {{-- Right: user info --}}
-  <div class="flex items-center gap-3">
+  <a href="{{ route('profile') }}" wire:navigate class="flex items-center gap-3 rounded-lg p-1 transition-colors hover:bg-gray-50" aria-label="Buka profil">
     <div class="text-right">
       <p class="text-sm font-medium text-gray-700">
         {{ auth()->user()->name ?? "Admin" }}
@@ -29,5 +29,5 @@
     >
       {{ strtoupper(substr(auth()->user()->name ?? "A", 0, 1)) }}
     </div>
-  </div>
+  </a>
 </header>

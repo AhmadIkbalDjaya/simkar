@@ -3,6 +3,7 @@
 use App\Livewire\Auth\Login;
 use App\Livewire\Dashboard;
 use App\Livewire\Mutations;
+use App\Livewire\Profile;
 use App\Livewire\Reports;
 use App\Livewire\Rooms;
 use App\Livewire\Users\UserCreate;
@@ -25,6 +26,8 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/profile', Profile::class)->name('profile');
+
     Route::get('/dashboard', Dashboard::class)
         ->middleware('role:ADMIN,OFFICER')
         ->name('dashboard');
