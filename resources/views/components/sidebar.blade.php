@@ -147,7 +147,8 @@
     </div>
 
     {{-- Users --}}
-    <div x-data="{ open: {{ request()->is("users*") ? "true" : "false" }} }">
+    @if (auth()->user()->role === \App\Enums\UserRole::Admin)
+    <div x-data="{ open: {{ request()->routeIs('users.*') ? 'true' : 'false' }} }">
       <button
         @click="open = !open"
         class="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-gray-800 hover:text-white"
@@ -167,15 +168,16 @@
         class="mt-1 ml-4 space-y-1 border-l border-gray-700 pl-4"
       >
         <a
-          href="/users"
+          href="{{ route('users.index') }}"
           wire:navigate
-          class="{{ request()->is("users*") ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white" }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
+          class="{{ request()->routeIs('users.*') ? 'bg-gray-800 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
         >
           <x-icons.user-settings class="h-4 w-4" />
           Kelola Pengguna
         </a>
       </div>
     </div>
+    @endif
   </nav>
 
   {{-- Bottom section --}}

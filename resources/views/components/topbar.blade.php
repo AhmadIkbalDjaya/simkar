@@ -21,7 +21,7 @@
         {{ auth()->user()->name ?? "Admin" }}
       </p>
       <p class="text-xs text-gray-500">
-        {{ auth()->user()->role ?? "Administrator" }}
+        {{ auth()->user() ? strtoupper(auth()->user()->role->value) : "Administrator" }}
       </p>
     </div>
     <div

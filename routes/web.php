@@ -5,6 +5,9 @@ use App\Livewire\Dashboard;
 use App\Livewire\Mutations;
 use App\Livewire\Reports;
 use App\Livewire\Rooms;
+use App\Livewire\Users\UserCreate;
+use App\Livewire\Users\UserEdit;
+use App\Livewire\Users\UserIndex;
 use App\Livewire\Wbps;
 use App\Models\Inmate;
 use App\Models\RoomTransfer;
@@ -39,6 +42,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/mutations/{mutation}', Mutations\Show::class)->name('mutations.show');
 
     Route::get('/reports/mutations', Reports\MutationReport::class)->name('reports.mutations');
+
+    Route::middleware('admin')->group(function () {
+        Route::get('/users', UserIndex::class)->name('users.index');
+        Route::get('/users/create', UserCreate::class)->name('users.create');
+        Route::get('/users/{user}/edit', UserEdit::class)->name('users.edit');
+    });
 
     Route::post('/logout', function (Request $request) {
         Auth::guard('web')->logout();
