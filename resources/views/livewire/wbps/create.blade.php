@@ -2,7 +2,7 @@
   {{-- Header --}}
   <div class="mb-6">
     <a
-      href="{{ route('wbps.index') }}"
+      href="{{ route("wbps.index") }}"
       wire:navigate
       class="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700"
     >
@@ -28,29 +28,26 @@
           wire:model="form.registration_number"
           id="registration_number"
           type="text"
-          class="{{ $errors->has('form.registration_number') ? 'border-red-500' : 'border-gray-300' }} w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
+          class="{{ $errors->has("form.registration_number") ? "border-red-500" : "border-gray-300" }} w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
           placeholder="Contoh: NPI-00001"
         />
-        @error('form.registration_number')
+        @error("form.registration_number")
           <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
         @enderror
       </div>
 
       <div>
-        <label
-          for="name"
-          class="mb-1 block text-sm font-medium text-gray-700"
-        >
+        <label for="name" class="mb-1 block text-sm font-medium text-gray-700">
           Nama WBP
         </label>
         <input
           wire:model="form.name"
           id="name"
           type="text"
-          class="{{ $errors->has('form.name') ? 'border-red-500' : 'border-gray-300' }} w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
+          class="{{ $errors->has("form.name") ? "border-red-500" : "border-gray-300" }} w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
           placeholder="Nama lengkap"
         />
-        @error('form.name')
+        @error("form.name")
           <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
         @enderror
       </div>
@@ -65,13 +62,13 @@
         <select
           wire:model="form.gender"
           id="gender"
-          class="{{ $errors->has('form.gender') ? 'border-red-500' : 'border-gray-300' }} w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
+          class="{{ $errors->has("form.gender") ? "border-red-500" : "border-gray-300" }} w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
         >
           <option value="">Pilih jenis kelamin</option>
           <option value="male">Laki-laki</option>
           <option value="female">Perempuan</option>
         </select>
-        @error('form.gender')
+        @error("form.gender")
           <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
         @enderror
       </div>
@@ -86,21 +83,21 @@
         <select
           wire:model="form.current_room_id"
           id="current_room_id"
-          class="{{ $errors->has('form.current_room_id') ? 'border-red-500' : 'border-gray-300' }} w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
+          class="{{ $errors->has("form.current_room_id") ? "border-red-500" : "border-gray-300" }} w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
         >
           <option value="">Belum ditempatkan</option>
           @foreach ($rooms as $room)
             <option
               value="{{ $room->id }}"
-              {{ $room->current_occupancy >= $room->capacity ? 'disabled' : '' }}
+              {{ $room->current_occupancy >= $room->capacity ? "disabled" : "" }}
             >
               {{ $room->name }}
               ({{ $room->current_occupancy }}/{{ $room->capacity }})
-              {{ $room->current_occupancy >= $room->capacity ? '- Penuh' : '' }}
+              {{ $room->current_occupancy >= $room->capacity ? "- Penuh" : "" }}
             </option>
           @endforeach
         </select>
-        @error('form.current_room_id')
+        @error("form.current_room_id")
           <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
         @enderror
       </div>
@@ -119,7 +116,7 @@
           Simpan
         </button>
         <a
-          href="{{ route('wbps.index') }}"
+          href="{{ route("wbps.index") }}"
           wire:navigate
           class="rounded-lg border border-gray-300 px-5 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
         >

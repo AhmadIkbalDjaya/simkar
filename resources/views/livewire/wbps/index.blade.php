@@ -11,7 +11,7 @@
     </div>
     @if (auth()->user()->role === \App\Enums\UserRole::Admin)
       <a
-        href="{{ route('wbps.create') }}"
+        href="{{ route("wbps.create") }}"
         wire:navigate
         class="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-gray-800"
       >
@@ -67,7 +67,7 @@
       <div class="overflow-x-auto">
         <table class="w-full text-left text-sm">
           <thead
-            class="border-b border-gray-200 bg-gray-50 text-xs uppercase tracking-wider text-gray-500"
+            class="border-b border-gray-200 bg-gray-50 text-xs tracking-wider text-gray-500 uppercase"
           >
             <tr>
               <th class="px-6 py-3 font-medium">No. Registrasi</th>
@@ -81,23 +81,23 @@
             @foreach ($wbps as $wbp)
               <tr class="hover:bg-gray-50">
                 <td
-                  class="whitespace-nowrap px-6 py-4 font-medium text-gray-900"
+                  class="px-6 py-4 font-medium whitespace-nowrap text-gray-900"
                 >
                   {{ $wbp->registration_number }}
                 </td>
-                <td class="whitespace-nowrap px-6 py-4 text-gray-600">
+                <td class="px-6 py-4 whitespace-nowrap text-gray-600">
                   {{ $wbp->name }}
                 </td>
-                <td class="whitespace-nowrap px-6 py-4 text-gray-600">
-                  {{ $wbp->gender === \App\Enums\GenderType::Male ? 'Laki-laki' : 'Perempuan' }}
+                <td class="px-6 py-4 whitespace-nowrap text-gray-600">
+                  {{ $wbp->gender === \App\Enums\GenderType::Male ? "Laki-laki" : "Perempuan" }}
                 </td>
-                <td class="whitespace-nowrap px-6 py-4 text-gray-600">
-                  {{ $wbp->currentRoom?->name ?? '-' }}
+                <td class="px-6 py-4 whitespace-nowrap text-gray-600">
+                  {{ $wbp->currentRoom?->name ?? "-" }}
                 </td>
-                <td class="whitespace-nowrap px-6 py-4">
+                <td class="px-6 py-4 whitespace-nowrap">
                   <div class="flex items-center gap-2">
                     <a
-                      href="{{ route('wbps.show', $wbp) }}"
+                      href="{{ route("wbps.show", $wbp) }}"
                       wire:navigate
                       class="text-indigo-600 hover:text-indigo-800"
                       title="Lihat"
@@ -106,7 +106,7 @@
                     </a>
                     @if (auth()->user()->role === \App\Enums\UserRole::Admin)
                       <a
-                        href="{{ route('wbps.edit', $wbp) }}"
+                        href="{{ route("wbps.edit", $wbp) }}"
                         wire:navigate
                         class="text-amber-600 hover:text-amber-800"
                         title="Edit"

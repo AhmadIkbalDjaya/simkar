@@ -50,7 +50,7 @@
         class="mt-1 ml-4 space-y-1 border-l border-gray-700 pl-4"
       >
         <a
-          href="{{ route('wbps.index') }}"
+          href="{{ route("wbps.index") }}"
           wire:navigate
           class="{{ request()->routeIs("wbps.*") ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white" }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
         >
@@ -93,7 +93,7 @@
         class="mt-1 ml-4 space-y-1 border-l border-gray-700 pl-4"
       >
         <a
-          href="{{ route('mutations.create') }}"
+          href="{{ route("mutations.create") }}"
           wire:navigate
           class="{{ request()->routeIs("mutations.create") ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white" }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
         >
@@ -101,7 +101,7 @@
           Buat Mutasi
         </a>
         <a
-          href="{{ route('mutations.index') }}"
+          href="{{ route("mutations.index") }}"
           wire:navigate
           class="{{ request()->routeIs("mutations.index") || request()->routeIs("mutations.show") ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white" }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
         >
@@ -136,7 +136,7 @@
         class="mt-1 ml-4 space-y-1 border-l border-gray-700 pl-4"
       >
         <a
-          href="{{ route('reports.mutations') }}"
+          href="{{ route("reports.mutations") }}"
           wire:navigate
           class="{{ request()->routeIs("reports.mutations") ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white" }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
         >
@@ -148,44 +148,48 @@
 
     {{-- Users --}}
     @if (auth()->user()->role === \App\Enums\UserRole::Admin)
-    <div x-data="{ open: {{ request()->routeIs('users.*') ? 'true' : 'false' }} }">
-      <button
-        @click="open = !open"
-        class="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-gray-800 hover:text-white"
-      >
-        <span class="flex items-center gap-3">
-          <x-icons.users-group class="h-5 w-5" />
-          Pengguna
-        </span>
-        <x-icons.chevron-right
-          class="h-4 w-4 transition-transform"
-          x-bind:class="open && 'rotate-90'"
-        />
-      </button>
       <div
-        x-show="open"
-        x-transition
-        class="mt-1 ml-4 space-y-1 border-l border-gray-700 pl-4"
+        x-data="{
+          open: {{ request()->routeIs("users.*") ? "true" : "false" }},
+        }"
       >
-        <a
-          href="{{ route('users.index') }}"
-          wire:navigate
-          class="{{ request()->routeIs('users.*') ? 'bg-gray-800 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
+        <button
+          @click="open = !open"
+          class="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-gray-800 hover:text-white"
         >
-          <x-icons.user-settings class="h-4 w-4" />
-          Kelola Pengguna
-        </a>
+          <span class="flex items-center gap-3">
+            <x-icons.users-group class="h-5 w-5" />
+            Pengguna
+          </span>
+          <x-icons.chevron-right
+            class="h-4 w-4 transition-transform"
+            x-bind:class="open && 'rotate-90'"
+          />
+        </button>
+        <div
+          x-show="open"
+          x-transition
+          class="mt-1 ml-4 space-y-1 border-l border-gray-700 pl-4"
+        >
+          <a
+            href="{{ route("users.index") }}"
+            wire:navigate
+            class="{{ request()->routeIs("users.*") ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white" }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
+          >
+            <x-icons.user-settings class="h-4 w-4" />
+            Kelola Pengguna
+          </a>
+        </div>
       </div>
-    </div>
     @endif
   </nav>
 
   {{-- Bottom section --}}
   <div class="shrink-0 border-t border-gray-700 px-3 py-4">
     <a
-      href="{{ route('profile') }}"
+      href="{{ route("profile") }}"
       wire:navigate
-      class="{{ request()->routeIs('profile') ? 'bg-gray-800 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
+      class="{{ request()->routeIs("profile") ? "bg-gray-800 text-white" : "text-gray-300 hover:bg-gray-800 hover:text-white" }} flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
     >
       <x-icons.user class="h-5 w-5" />
       Profil

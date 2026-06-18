@@ -2,7 +2,7 @@
   {{-- Header --}}
   <div class="mb-6">
     <a
-      href="{{ route('mutations.index') }}"
+      href="{{ route("mutations.index") }}"
       wire:navigate
       class="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700"
     >
@@ -33,7 +33,7 @@
         <select
           wire:model.live="inmate_id"
           id="inmate_id"
-          class="{{ $errors->has('inmate_id') ? 'border-red-500' : 'border-gray-300' }} w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
+          class="{{ $errors->has("inmate_id") ? "border-red-500" : "border-gray-300" }} w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
         >
           <option value="">Pilih WBP</option>
           @foreach ($inmates as $inmate)
@@ -42,7 +42,7 @@
             </option>
           @endforeach
         </select>
-        @error('inmate_id')
+        @error("inmate_id")
           <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
         @enderror
       </div>
@@ -54,11 +54,11 @@
         </label>
         <input
           type="text"
-          value="{{ $room_from_name ?? 'Pilih WBP terlebih dahulu' }}"
+          value="{{ $room_from_name ?? "Pilih WBP terlebih dahulu" }}"
           disabled
           class="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2.5 text-sm text-gray-500"
         />
-        @error('room_from_id')
+        @error("room_from_id")
           <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
         @enderror
       </div>
@@ -74,7 +74,7 @@
         <select
           wire:model="room_to_id"
           id="room_to_id"
-          class="{{ $errors->has('room_to_id') ? 'border-red-500' : 'border-gray-300' }} w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
+          class="{{ $errors->has("room_to_id") ? "border-red-500" : "border-gray-300" }} w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
         >
           <option value="">Pilih kamar tujuan</option>
           @foreach ($availableRooms as $room)
@@ -84,7 +84,7 @@
             </option>
           @endforeach
         </select>
-        @error('room_to_id')
+        @error("room_to_id")
           <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
         @enderror
       </div>
@@ -101,9 +101,9 @@
           wire:model="transferred_at"
           id="transferred_at"
           type="datetime-local"
-          class="{{ $errors->has('transferred_at') ? 'border-red-500' : 'border-gray-300' }} w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
+          class="{{ $errors->has("transferred_at") ? "border-red-500" : "border-gray-300" }} w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
         />
-        @error('transferred_at')
+        @error("transferred_at")
           <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
         @enderror
       </div>
@@ -120,29 +120,26 @@
           wire:model="officer_name"
           id="officer_name"
           type="text"
-          class="{{ $errors->has('officer_name') ? 'border-red-500' : 'border-gray-300' }} w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
+          class="{{ $errors->has("officer_name") ? "border-red-500" : "border-gray-300" }} w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
         />
-        @error('officer_name')
+        @error("officer_name")
           <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
         @enderror
       </div>
 
       {{-- Catatan --}}
       <div>
-        <label
-          for="notes"
-          class="mb-1 block text-sm font-medium text-gray-700"
-        >
+        <label for="notes" class="mb-1 block text-sm font-medium text-gray-700">
           Catatan
         </label>
         <textarea
           wire:model="notes"
           id="notes"
           rows="3"
-          class="{{ $errors->has('notes') ? 'border-red-500' : 'border-gray-300' }} w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
+          class="{{ $errors->has("notes") ? "border-red-500" : "border-gray-300" }} w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
           placeholder="Catatan tambahan (opsional)"
         ></textarea>
-        @error('notes')
+        @error("notes")
           <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
         @enderror
       </div>
@@ -153,7 +150,7 @@
           Tanda Tangan Petugas
         </label>
         <div
-          class="{{ $errors->has('officer_signature') ? 'border-red-500' : 'border-gray-300' }} rounded-lg border bg-white"
+          class="{{ $errors->has("officer_signature") ? "border-red-500" : "border-gray-300" }} rounded-lg border bg-white"
         >
           <canvas
             x-ref="signatureCanvas"
@@ -168,15 +165,11 @@
           >
             Hapus tanda tangan
           </button>
-          <span
-            x-show="signed"
-            x-cloak
-            class="text-xs text-emerald-600"
-          >
+          <span x-show="signed" x-cloak class="text-xs text-emerald-600">
             Tanda tangan tersimpan
           </span>
         </div>
-        @error('officer_signature')
+        @error("officer_signature")
           <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
         @enderror
       </div>
@@ -197,7 +190,7 @@
           Simpan Mutasi
         </button>
         <a
-          href="{{ route('mutations.index') }}"
+          href="{{ route("mutations.index") }}"
           wire:navigate
           class="rounded-lg border border-gray-300 px-5 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
         >
@@ -217,78 +210,80 @@
       signed: false,
 
       init() {
-        this.canvas = this.$refs.signatureCanvas
-        this.ctx = this.canvas.getContext('2d')
+        this.canvas = this.$refs.signatureCanvas;
+        this.ctx = this.canvas.getContext('2d');
 
-        this.resize()
+        this.resize();
 
-        window.addEventListener('resize', () => this.resize())
+        window.addEventListener('resize', () => this.resize());
 
-        this.canvas.addEventListener('pointerdown', (e) => this.startDrawing(e))
-        this.canvas.addEventListener('pointermove', (e) => this.draw(e))
-        this.canvas.addEventListener('pointerup', () => this.stopDrawing())
-        this.canvas.addEventListener('pointerleave', () => this.stopDrawing())
+        this.canvas.addEventListener('pointerdown', (e) =>
+          this.startDrawing(e),
+        );
+        this.canvas.addEventListener('pointermove', (e) => this.draw(e));
+        this.canvas.addEventListener('pointerup', () => this.stopDrawing());
+        this.canvas.addEventListener('pointerleave', () => this.stopDrawing());
       },
 
       resize() {
-        const rect = this.canvas.parentElement.getBoundingClientRect()
-        const dpr = window.devicePixelRatio || 1
-        this.canvas.width = rect.width * dpr
-        this.canvas.height = 160 * dpr
-        this.canvas.style.width = rect.width + 'px'
-        this.canvas.style.height = '160px'
-        this.ctx.scale(dpr, dpr)
-        this.ctx.strokeStyle = '#1f2937'
-        this.ctx.lineWidth = 2
-        this.ctx.lineCap = 'round'
-        this.ctx.lineJoin = 'round'
+        const rect = this.canvas.parentElement.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        this.canvas.width = rect.width * dpr;
+        this.canvas.height = 160 * dpr;
+        this.canvas.style.width = rect.width + 'px';
+        this.canvas.style.height = '160px';
+        this.ctx.scale(dpr, dpr);
+        this.ctx.strokeStyle = '#1f2937';
+        this.ctx.lineWidth = 2;
+        this.ctx.lineCap = 'round';
+        this.ctx.lineJoin = 'round';
       },
 
       getPos(e) {
-        const rect = this.canvas.getBoundingClientRect()
+        const rect = this.canvas.getBoundingClientRect();
         return {
           x: e.clientX - rect.left,
           y: e.clientY - rect.top,
-        }
+        };
       },
 
       startDrawing(e) {
-        this.drawing = true
-        const pos = this.getPos(e)
-        this.ctx.beginPath()
-        this.ctx.moveTo(pos.x, pos.y)
+        this.drawing = true;
+        const pos = this.getPos(e);
+        this.ctx.beginPath();
+        this.ctx.moveTo(pos.x, pos.y);
       },
 
       draw(e) {
-        if (!this.drawing) return
-        const pos = this.getPos(e)
-        this.ctx.lineTo(pos.x, pos.y)
-        this.ctx.stroke()
-        this.signed = true
+        if (!this.drawing) return;
+        const pos = this.getPos(e);
+        this.ctx.lineTo(pos.x, pos.y);
+        this.ctx.stroke();
+        this.signed = true;
       },
 
       stopDrawing() {
-        this.drawing = false
+        this.drawing = false;
       },
 
       clear() {
-        const dpr = window.devicePixelRatio || 1
+        const dpr = window.devicePixelRatio || 1;
         this.ctx.clearRect(
           0,
           0,
           this.canvas.width / dpr,
           this.canvas.height / dpr,
-        )
-        this.signed = false
-        $wire.set('officer_signature', '')
+        );
+        this.signed = false;
+        $wire.set('officer_signature', '');
       },
 
       syncSignature() {
         if (this.signed) {
-          const data = this.canvas.toDataURL('image/png')
-          $wire.set('officer_signature', data)
+          const data = this.canvas.toDataURL('image/png');
+          $wire.set('officer_signature', data);
         }
       },
-    }))
+    }));
   </script>
 @endscript

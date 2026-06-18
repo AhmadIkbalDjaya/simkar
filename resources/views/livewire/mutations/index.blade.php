@@ -5,12 +5,10 @@
   >
     <div>
       <h1 class="text-2xl font-bold text-gray-900">Riwayat Mutasi</h1>
-      <p class="mt-1 text-sm text-gray-500">
-        Riwayat perpindahan kamar WBP.
-      </p>
+      <p class="mt-1 text-sm text-gray-500">Riwayat perpindahan kamar WBP.</p>
     </div>
     <a
-      href="{{ route('mutations.create') }}"
+      href="{{ route("mutations.create") }}"
       wire:navigate
       class="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-gray-800"
     >
@@ -20,9 +18,7 @@
   </div>
 
   {{-- Filters --}}
-  <div
-    class="mb-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
-  >
+  <div class="mb-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       <div>
         <input
@@ -104,7 +100,7 @@
       <div class="overflow-x-auto">
         <table class="w-full text-left text-sm">
           <thead
-            class="border-b border-gray-200 bg-gray-50 text-xs uppercase tracking-wider text-gray-500"
+            class="border-b border-gray-200 bg-gray-50 text-xs tracking-wider text-gray-500 uppercase"
           >
             <tr>
               <th class="px-6 py-3 font-medium">WBP</th>
@@ -119,25 +115,25 @@
             @foreach ($mutations as $mutation)
               <tr class="hover:bg-gray-50">
                 <td
-                  class="whitespace-nowrap px-6 py-4 font-medium text-gray-900"
+                  class="px-6 py-4 font-medium whitespace-nowrap text-gray-900"
                 >
                   {{ $mutation->inmate->name }}
                 </td>
-                <td class="whitespace-nowrap px-6 py-4 text-gray-600">
+                <td class="px-6 py-4 whitespace-nowrap text-gray-600">
                   {{ $mutation->roomFrom->name }}
                 </td>
-                <td class="whitespace-nowrap px-6 py-4 text-gray-600">
+                <td class="px-6 py-4 whitespace-nowrap text-gray-600">
                   {{ $mutation->roomTo->name }}
                 </td>
-                <td class="whitespace-nowrap px-6 py-4 text-gray-600">
-                  {{ $mutation->transferred_at->format('d M Y H:i') }}
+                <td class="px-6 py-4 whitespace-nowrap text-gray-600">
+                  {{ $mutation->transferred_at->format("d M Y H:i") }}
                 </td>
-                <td class="whitespace-nowrap px-6 py-4 text-gray-600">
+                <td class="px-6 py-4 whitespace-nowrap text-gray-600">
                   {{ $mutation->officer_name }}
                 </td>
-                <td class="whitespace-nowrap px-6 py-4">
+                <td class="px-6 py-4 whitespace-nowrap">
                   <a
-                    href="{{ route('mutations.show', $mutation) }}"
+                    href="{{ route("mutations.show", $mutation) }}"
                     wire:navigate
                     class="text-indigo-600 hover:text-indigo-800"
                     title="Detail"

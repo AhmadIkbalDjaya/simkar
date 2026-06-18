@@ -77,9 +77,18 @@
     </div>
 
     <div class="meta">
-      <span><strong>Filter:</strong> {{ $filterSummary }}</span>
-      <span><strong>Dicetak:</strong> {{ $generatedAt }}</span>
-      <span><strong>Total:</strong> {{ $data->count() }} data</span>
+      <span>
+        <strong>Filter:</strong>
+        {{ $filterSummary }}
+      </span>
+      <span>
+        <strong>Dicetak:</strong>
+        {{ $generatedAt }}
+      </span>
+      <span>
+        <strong>Total:</strong>
+        {{ $data->count() }} data
+      </span>
     </div>
 
     <table>
@@ -101,16 +110,14 @@
             <td>{{ $item->inmate->name }}</td>
             <td>{{ $item->roomFrom->name }}</td>
             <td>{{ $item->roomTo->name }}</td>
-            <td>{{ $item->transferred_at->format('d/m/Y H:i') }}</td>
+            <td>{{ $item->transferred_at->format("d/m/Y H:i") }}</td>
             <td>{{ $item->officer_name }}</td>
-            <td>{{ $item->notes ?? '-' }}</td>
+            <td>{{ $item->notes ?? "-" }}</td>
           </tr>
         @endforeach
       </tbody>
     </table>
 
-    <div class="footer">
-      Dicetak pada {{ $generatedAt }}
-    </div>
+    <div class="footer">Dicetak pada {{ $generatedAt }}</div>
   </body>
 </html>

@@ -5,7 +5,7 @@
   >
     <div>
       <a
-        href="{{ route('wbps.index') }}"
+        href="{{ route("wbps.index") }}"
         wire:navigate
         class="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700"
       >
@@ -16,7 +16,7 @@
     </div>
     @if (auth()->user()->role === \App\Enums\UserRole::Admin)
       <a
-        href="{{ route('wbps.edit', $wbp) }}"
+        href="{{ route("wbps.edit", $wbp) }}"
         wire:navigate
         class="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-gray-800"
       >
@@ -41,13 +41,13 @@
     <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
       <p class="text-sm font-medium text-gray-500">Jenis Kelamin</p>
       <p class="mt-2 text-lg font-bold text-gray-900">
-        {{ $wbp->gender === \App\Enums\GenderType::Male ? 'Laki-laki' : 'Perempuan' }}
+        {{ $wbp->gender === \App\Enums\GenderType::Male ? "Laki-laki" : "Perempuan" }}
       </p>
     </div>
     <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
       <p class="text-sm font-medium text-gray-500">Kamar Saat Ini</p>
       <p class="mt-2 text-lg font-bold text-gray-900">
-        {{ $wbp->currentRoom?->name ?? 'Belum ditempatkan' }}
+        {{ $wbp->currentRoom?->name ?? "Belum ditempatkan" }}
       </p>
     </div>
   </div>
@@ -67,7 +67,7 @@
       <div class="overflow-x-auto">
         <table class="w-full text-left text-sm">
           <thead
-            class="border-b border-gray-200 bg-gray-50 text-xs uppercase tracking-wider text-gray-500"
+            class="border-b border-gray-200 bg-gray-50 text-xs tracking-wider text-gray-500 uppercase"
           >
             <tr>
               <th class="px-6 py-3 font-medium">Dari Kamar</th>
@@ -79,16 +79,16 @@
           <tbody class="divide-y divide-gray-100">
             @foreach ($transfers as $transfer)
               <tr class="hover:bg-gray-50">
-                <td class="whitespace-nowrap px-6 py-4 text-gray-600">
+                <td class="px-6 py-4 whitespace-nowrap text-gray-600">
                   {{ $transfer->roomFrom->name }}
                 </td>
-                <td class="whitespace-nowrap px-6 py-4 text-gray-600">
+                <td class="px-6 py-4 whitespace-nowrap text-gray-600">
                   {{ $transfer->roomTo->name }}
                 </td>
-                <td class="whitespace-nowrap px-6 py-4 text-gray-600">
-                  {{ $transfer->transferred_at->format('d M Y H:i') }}
+                <td class="px-6 py-4 whitespace-nowrap text-gray-600">
+                  {{ $transfer->transferred_at->format("d M Y H:i") }}
                 </td>
-                <td class="whitespace-nowrap px-6 py-4 text-gray-600">
+                <td class="px-6 py-4 whitespace-nowrap text-gray-600">
                   {{ $transfer->officer_name }}
                 </td>
               </tr>

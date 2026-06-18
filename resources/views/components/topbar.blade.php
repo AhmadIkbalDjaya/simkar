@@ -15,7 +15,12 @@
   </div>
 
   {{-- Right: user info --}}
-  <a href="{{ route('profile') }}" wire:navigate class="flex items-center gap-3 rounded-lg p-1 transition-colors hover:bg-gray-50" aria-label="Buka profil">
+  <a
+    href="{{ route("profile") }}"
+    wire:navigate
+    class="flex items-center gap-3 rounded-lg p-1 transition-colors hover:bg-gray-50"
+    aria-label="Buka profil"
+  >
     <div class="text-right">
       <p class="text-sm font-medium text-gray-700">
         {{ auth()->user()->name ?? "Admin" }}
