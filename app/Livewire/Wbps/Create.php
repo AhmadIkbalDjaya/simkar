@@ -17,11 +17,13 @@ class Create extends Component
 
     public function mount(): void
     {
-        abort_unless(auth()->user()->role === UserRole::Admin, 403);
+        abort_unless(auth()->user()?->hasRole(UserRole::Admin), 403);
     }
 
     public function save(): void
     {
+        abort_unless(auth()->user()?->hasRole(UserRole::Admin), 403);
+
         $this->form->store();
 
         session()->flash('success', 'WBP berhasil ditambahkan.');

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Reports;
 
+use App\Enums\UserRole;
 use App\Exports\MutationReportExport;
 use App\Models\Room;
 use App\Models\RoomTransfer;
@@ -103,6 +104,7 @@ class MutationReport extends Component
 
     public function exportPdf()
     {
+        $this->authorizeAccess();
         $data = $this->getReportData();
 
         if ($data->isEmpty()) {
@@ -124,6 +126,7 @@ class MutationReport extends Component
 
     public function exportExcel()
     {
+        $this->authorizeAccess();
         $data = $this->getReportData();
 
         if ($data->isEmpty()) {
@@ -140,10 +143,17 @@ class MutationReport extends Component
 
     public function render(): View
     {
+        $this->authorizeAccess();
+
         $mutations = $this->getFilteredQuery()->paginate(10);
         $rooms = Room::orderBy('name')->get(['id', 'name']);
         $officers = RoomTransfer::distinct()->pluck('officer_name')->sort()->values();
 
         return view('livewire.reports.mutation-report', compact('mutations', 'rooms', 'officers'));
+    }
+
+    private function authorizeAccess(): void
+    {
+        abort_unless(auth()->user()?->hasRole(UserRole::Admin, UserRole::Officer), 403);
     }
 }

@@ -18,7 +18,7 @@ class Edit extends Component
 
     public function mount(Inmate $wbp): void
     {
-        abort_unless(auth()->user()->role === UserRole::Admin, 403);
+        abort_unless(auth()->user()?->hasRole(UserRole::Admin), 403);
 
         $this->wbp = $wbp;
         $this->form->setInmate($wbp);
@@ -31,6 +31,8 @@ class Edit extends Component
 
     public function save(): void
     {
+        abort_unless(auth()->user()?->hasRole(UserRole::Admin), 403);
+
         $this->form->update($this->wbp);
 
         session()->flash('success', 'WBP berhasil diperbarui.');

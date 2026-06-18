@@ -48,6 +48,8 @@ class Index extends Component
 
     public function confirmDelete(int $id, string $name): void
     {
+        abort_unless(auth()->user()?->hasRole(UserRole::Admin), 403);
+
         $this->deleteId = $id;
         $this->deleteName = $name;
 
@@ -56,7 +58,7 @@ class Index extends Component
 
     public function delete(): void
     {
-        abort_unless(auth()->user()->role === UserRole::Admin, 403);
+        abort_unless(auth()->user()?->hasRole(UserRole::Admin), 403);
 
         $inmate = Inmate::findOrFail($this->deleteId);
 

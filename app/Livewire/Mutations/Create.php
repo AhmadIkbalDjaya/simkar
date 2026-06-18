@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Mutations;
 
+use App\Enums\UserRole;
 use App\Models\Inmate;
 use App\Models\Room;
 use App\Models\RoomTransfer;
@@ -40,6 +41,8 @@ class Create extends Component
 
     public function mount(): void
     {
+        $this->authorizeAccess();
+
         $this->transferred_at = now()->format('Y-m-d\TH:i');
         $this->officer_name = auth()->user()->name;
     }
@@ -87,6 +90,7 @@ class Create extends Component
 
     public function save(): void
     {
+        $this->authorizeAccess();
         $this->validate();
 
         DB::transaction(function () {
@@ -125,6 +129,8 @@ class Create extends Component
 
     public function render(): View
     {
+        $this->authorizeAccess();
+
         $inmates = Inmate::whereNotNull('current_room_id')
             ->orderBy('name')
             ->get(['id', 'name', 'registration_number']);
@@ -135,5 +141,10 @@ class Create extends Component
             ->get(['id', 'name', 'capacity', 'current_occupancy']);
 
         return view('livewire.mutations.create', compact('inmates', 'availableRooms'));
+    }
+
+    private function authorizeAccess(): void
+    {
+        abort_unless(auth()->user()?->hasRole(UserRole::Admin, UserRole::Officer), 403);
     }
 }

@@ -16,7 +16,7 @@ class Edit extends Component
 
     public function mount(Room $room): void
     {
-        abort_unless(auth()->user()->role === UserRole::Admin, 403);
+        abort_unless(auth()->user()?->hasRole(UserRole::Admin), 403);
 
         $this->room = $room;
         $this->form->setRoom($room);
@@ -29,6 +29,8 @@ class Edit extends Component
 
     public function save(): void
     {
+        abort_unless(auth()->user()?->hasRole(UserRole::Admin), 403);
+
         $this->form->update($this->room);
 
         session()->flash('success', 'Kamar berhasil diperbarui.');
