@@ -29,8 +29,6 @@ class UserIndex extends Component
 
     public ?string $errorMessage = null;
 
-    public ?string $successMessage = null;
-
     public function mount(): void
     {
         $this->authorizeAdmin();
@@ -79,12 +77,14 @@ class UserIndex extends Component
 
         if ($user->is(auth()->user())) {
             $this->errorMessage = 'You cannot delete your own account.';
+            $this->dispatch('toast', type: 'error', message: $this->errorMessage);
 
             return;
         }
 
         if ($user->role === UserRole::Admin && User::where('role', UserRole::Admin->value)->count() <= 1) {
             $this->errorMessage = 'At least one administrator account must remain.';
+            $this->dispatch('toast', type: 'error', message: $this->errorMessage);
 
             return;
         }
@@ -92,8 +92,8 @@ class UserIndex extends Component
         $user->delete();
         $this->reset('deleteId', 'deleteName');
         $this->errorMessage = null;
-        $this->successMessage = 'Pengguna berhasil dihapus.';
         $this->resetPage();
+        $this->dispatch('toast', type: 'success', message: 'Pengguna berhasil dihapus.');
     }
 
     public function render(): View

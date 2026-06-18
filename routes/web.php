@@ -74,6 +74,6 @@ Route::middleware('auth')->group(function () {
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect('/login')->with('success', 'Logout berhasil. Sampai jumpa!');
     })->name('logout');
 });

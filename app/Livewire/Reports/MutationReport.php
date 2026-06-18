@@ -108,7 +108,7 @@ class MutationReport extends Component
         $data = $this->getReportData();
 
         if ($data->isEmpty()) {
-            session()->flash('error', 'Tidak ada data untuk diekspor.');
+            $this->dispatch('toast', type: 'error', message: 'Tidak ada data untuk diekspor.');
 
             return;
         }
@@ -130,7 +130,7 @@ class MutationReport extends Component
         $data = $this->getReportData();
 
         if ($data->isEmpty()) {
-            session()->flash('error', 'Tidak ada data untuk diekspor.');
+            $this->dispatch('toast', type: 'error', message: 'Tidak ada data untuk diekspor.');
 
             return;
         }

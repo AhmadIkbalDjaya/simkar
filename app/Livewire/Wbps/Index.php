@@ -72,6 +72,7 @@ class Index extends Component
         $this->deleteName = '';
 
         $this->dispatch('close-delete-modal');
+        $this->dispatch('toast', type: 'success', message: 'WBP berhasil dihapus.');
     }
 
     public function render(): View

@@ -7,19 +7,8 @@
     </p>
   </div>
 
-  {{-- Flash Messages --}}
-  @if (session('error'))
-    <div
-      class="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
-    >
-      {{ session('error') }}
-    </div>
-  @endif
-
   {{-- Filters --}}
-  <div
-    class="mb-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
-  >
+  <div class="mb-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       <div>
         <label class="mb-1 block text-xs font-medium text-gray-500">
@@ -139,7 +128,7 @@
       <div class="overflow-x-auto">
         <table class="w-full text-left text-sm">
           <thead
-            class="border-b border-gray-200 bg-gray-50 text-xs uppercase tracking-wider text-gray-500"
+            class="border-b border-gray-200 bg-gray-50 text-xs tracking-wider text-gray-500 uppercase"
           >
             <tr>
               <th class="px-6 py-3 font-medium">WBP</th>
@@ -154,24 +143,24 @@
             @foreach ($mutations as $mutation)
               <tr class="hover:bg-gray-50">
                 <td
-                  class="whitespace-nowrap px-6 py-4 font-medium text-gray-900"
+                  class="px-6 py-4 font-medium whitespace-nowrap text-gray-900"
                 >
                   {{ $mutation->inmate->name }}
                 </td>
-                <td class="whitespace-nowrap px-6 py-4 text-gray-600">
+                <td class="px-6 py-4 whitespace-nowrap text-gray-600">
                   {{ $mutation->roomFrom->name }}
                 </td>
-                <td class="whitespace-nowrap px-6 py-4 text-gray-600">
+                <td class="px-6 py-4 whitespace-nowrap text-gray-600">
                   {{ $mutation->roomTo->name }}
                 </td>
-                <td class="whitespace-nowrap px-6 py-4 text-gray-600">
-                  {{ $mutation->transferred_at->format('d M Y H:i') }}
+                <td class="px-6 py-4 whitespace-nowrap text-gray-600">
+                  {{ $mutation->transferred_at->format("d M Y H:i") }}
                 </td>
-                <td class="whitespace-nowrap px-6 py-4 text-gray-600">
+                <td class="px-6 py-4 whitespace-nowrap text-gray-600">
                   {{ $mutation->officer_name }}
                 </td>
                 <td class="max-w-xs truncate px-6 py-4 text-gray-600">
-                  {{ $mutation->notes ?? '-' }}
+                  {{ $mutation->notes ?? "-" }}
                 </td>
               </tr>
             @endforeach

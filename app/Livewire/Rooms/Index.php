@@ -57,6 +57,7 @@ class Index extends Component
         $this->deleteName = '';
 
         $this->dispatch('close-delete-modal');
+        $this->dispatch('toast', type: 'success', message: 'Kamar berhasil dihapus.');
     }
 
     public function render(): View

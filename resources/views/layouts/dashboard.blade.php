@@ -41,6 +41,8 @@
       </div>
     </div>
 
+    <x-toast-notifications />
+
     @livewireScripts
   </body>
 </html>
