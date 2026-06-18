@@ -20,6 +20,7 @@ class Inmate extends Model
     {
         return [
             'gender' => GenderType::class,
+            'current_room_id' => 'integer',
         ];
     }
 
