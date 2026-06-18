@@ -1,0 +1,94 @@
+name: Deploy Production
+on:
+  push:
+    branches:
+      - main
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.4]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6.0.2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: pint
+
+      - name: Run Pint
+        run: pint
+
+      - name: Commit linted files
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: "style: fix code style issues"
+
+  deploy:
+    needs: [lint]
+    name: "Deploy Production"
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v6.0.2
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: ⚙️ Setup Bun
+        uses: oven-sh/setup-bun@v2.2.0
+        with:
+          bun-version: 1.2.16
+          cache: true
+
+      - name: 📦 Install Node dependencies
+        run: bun install --frozen-lockfile
+
+      - name: 🏗️ Build Frontend
+        run: bun run build
+
+      - name: 📂 Sync Files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ vars.FTP_SERVER_DIR }}
+          protocol: ${{ vars.FTP_PROTOCOL }}
+          port: ${{ vars.FTP_PORT }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/docs/**
+
+      - name: 📂 Sync Public
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: public/
+          server-dir: ${{ vars.FTP_SERVER_PUBLIC_DIR }}
+          protocol: ${{ vars.FTP_PROTOCOL }}
+          port: ${{ vars.FTP_PORT }}
+
+      - name: 🚀 Run Laravel Optimize
+        uses: appleboy/ssh-action@v1.2.5
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd ${{ vars.PROJECT_PATH }}
+            pwd
+            php artisan optimize:clear
+            php artisan optimize
