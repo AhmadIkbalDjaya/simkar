@@ -57,7 +57,7 @@ class UserEdit extends Component
         if ($this->user->role === UserRole::Admin
             && $newRole === UserRole::Officer
             && User::where('role', UserRole::Admin->value)->count() <= 1) {
-            $this->addError('role', 'At least one administrator account must remain.');
+            $this->addError('role', 'Setidaknya satu akun administrator harus tetap tersedia.');
 
             return;
         }
