@@ -18,6 +18,6 @@ class Show extends Component
 
     public function getTitle(): string
     {
-        return "Detail Mutasi - SIMKAR";
+        return 'Detail Mutasi - SIMKAR';
     }
 }

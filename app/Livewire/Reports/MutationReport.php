@@ -8,6 +8,7 @@ use App\Models\RoomTransfer;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
@@ -72,7 +73,7 @@ class MutationReport extends Component
             ->latest('transferred_at');
     }
 
-    private function getReportData(): \Illuminate\Database\Eloquent\Collection
+    private function getReportData(): Collection
     {
         return $this->getFilteredQuery()->get();
     }
@@ -82,18 +83,18 @@ class MutationReport extends Component
         $parts = [];
 
         if ($this->startDate) {
-            $parts[] = 'Dari: ' . date('d M Y', strtotime($this->startDate));
+            $parts[] = 'Dari: '.date('d M Y', strtotime($this->startDate));
         }
         if ($this->endDate) {
-            $parts[] = 'Sampai: ' . date('d M Y', strtotime($this->endDate));
+            $parts[] = 'Sampai: '.date('d M Y', strtotime($this->endDate));
         }
         if ($this->officer) {
-            $parts[] = 'Petugas: ' . $this->officer;
+            $parts[] = 'Petugas: '.$this->officer;
         }
         if ($this->roomId) {
             $room = Room::find($this->roomId);
             if ($room) {
-                $parts[] = 'Kamar: ' . $room->name;
+                $parts[] = 'Kamar: '.$room->name;
             }
         }
 
@@ -118,7 +119,7 @@ class MutationReport extends Component
 
         return response()->streamDownload(function () use ($pdf) {
             echo $pdf->output();
-        }, 'laporan-mutasi-' . now()->format('Y-m-d') . '.pdf');
+        }, 'laporan-mutasi-'.now()->format('Y-m-d').'.pdf');
     }
 
     public function exportExcel()
@@ -133,7 +134,7 @@ class MutationReport extends Component
 
         return Excel::download(
             new MutationReportExport($data),
-            'laporan-mutasi-' . now()->format('Y-m-d') . '.xlsx'
+            'laporan-mutasi-'.now()->format('Y-m-d').'.xlsx'
         );
     }
 
