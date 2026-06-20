@@ -8,7 +8,7 @@
   </div>
 
   {{-- Filters --}}
-  <div class="mb-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+  <x-ui.card class="mb-6 p-4" :padding="false">
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       <div>
         <label class="mb-1 block text-xs font-medium text-gray-500">
@@ -69,14 +69,14 @@
         </button>
       </div>
     @endif
-  </div>
+  </x-ui.card>
 
   {{-- Export Buttons --}}
   <div class="mb-6 flex flex-wrap gap-3">
-    <button
+    <x-ui.button
       wire:click="exportPdf"
       wire:loading.attr="disabled"
-      class="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50"
+      variant="secondary"
     >
       <x-icons.spinner
         wire:loading
@@ -89,11 +89,11 @@
         class="h-4 w-4 text-red-500"
       />
       Export PDF
-    </button>
-    <button
+    </x-ui.button>
+    <x-ui.button
       wire:click="exportExcel"
       wire:loading.attr="disabled"
-      class="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50"
+      variant="secondary"
     >
       <x-icons.spinner
         wire:loading
@@ -106,11 +106,11 @@
         class="h-4 w-4 text-emerald-500"
       />
       Export Excel
-    </button>
+    </x-ui.button>
   </div>
 
   {{-- Preview Table --}}
-  <div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+  <x-ui.card :padding="false">
     <div class="border-b border-gray-200 px-6 py-4">
       <h2 class="text-lg font-semibold text-gray-900">
         Pratinjau Data ({{ $mutations->total() }} data)
@@ -125,48 +125,44 @@
         </p>
       </div>
     @else
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-sm">
-          <thead
-            class="border-b border-gray-200 bg-gray-50 text-xs tracking-wider text-gray-500 uppercase"
-          >
-            <tr>
-              <th class="px-6 py-3 font-medium">WBP</th>
-              <th class="px-6 py-3 font-medium">Kamar Asal</th>
-              <th class="px-6 py-3 font-medium">Kamar Tujuan</th>
-              <th class="px-6 py-3 font-medium">Waktu</th>
-              <th class="px-6 py-3 font-medium">Petugas</th>
-              <th class="px-6 py-3 font-medium">Catatan</th>
+      <x-ui.table label="Pratinjau laporan mutasi">
+        <thead
+          class="border-b border-gray-200 bg-gray-50 text-xs tracking-wider text-gray-500 uppercase"
+        >
+          <tr>
+            <th class="px-6 py-3 font-medium">WBP</th>
+            <th class="px-6 py-3 font-medium">Kamar Asal</th>
+            <th class="px-6 py-3 font-medium">Kamar Tujuan</th>
+            <th class="px-6 py-3 font-medium">Waktu</th>
+            <th class="px-6 py-3 font-medium">Petugas</th>
+            <th class="px-6 py-3 font-medium">Catatan</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          @foreach ($mutations as $mutation)
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4 font-medium whitespace-nowrap text-gray-900">
+                {{ $mutation->inmate->name }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-gray-600">
+                {{ $mutation->roomFrom->name }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-gray-600">
+                {{ $mutation->roomTo->name }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-gray-600">
+                {{ $mutation->transferred_at->format("d M Y H:i") }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-gray-600">
+                {{ $mutation->officer_name }}
+              </td>
+              <td class="max-w-xs truncate px-6 py-4 text-gray-600">
+                {{ $mutation->notes ?? "-" }}
+              </td>
             </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-100">
-            @foreach ($mutations as $mutation)
-              <tr class="hover:bg-gray-50">
-                <td
-                  class="px-6 py-4 font-medium whitespace-nowrap text-gray-900"
-                >
-                  {{ $mutation->inmate->name }}
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-gray-600">
-                  {{ $mutation->roomFrom->name }}
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-gray-600">
-                  {{ $mutation->roomTo->name }}
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-gray-600">
-                  {{ $mutation->transferred_at->format("d M Y H:i") }}
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-gray-600">
-                  {{ $mutation->officer_name }}
-                </td>
-                <td class="max-w-xs truncate px-6 py-4 text-gray-600">
-                  {{ $mutation->notes ?? "-" }}
-                </td>
-              </tr>
-            @endforeach
-          </tbody>
-        </table>
-      </div>
+          @endforeach
+        </tbody>
+      </x-ui.table>
 
       @if ($mutations->hasPages())
         <div class="border-t border-gray-200 px-6 py-4">
@@ -174,5 +170,5 @@
         </div>
       @endif
     @endif
-  </div>
+  </x-ui.card>
 </div>

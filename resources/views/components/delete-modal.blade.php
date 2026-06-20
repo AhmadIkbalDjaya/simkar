@@ -6,6 +6,7 @@
   x-on:close-delete-modal.window="open = false; loading = false"
   x-show="open"
   x-cloak
+  x-on:keydown.escape.window="open = false"
   class="fixed inset-0 z-50 overflow-y-auto"
 >
   {{-- Backdrop --}}
@@ -24,6 +25,7 @@
   {{-- Modal --}}
   <div class="flex min-h-full items-center justify-center p-4">
     <div
+      x-ref="dialog"
       x-show="open"
       x-transition:enter="transition duration-200 ease-out"
       x-transition:enter-start="scale-95 opacity-0"
@@ -33,6 +35,12 @@
       x-transition:leave-end="scale-95 opacity-0"
       class="relative w-full max-w-md rounded-xl bg-white p-6 shadow-xl"
       @click.stop
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="{{ $id }}-title"
+      aria-describedby="{{ $id }}-description"
+      tabindex="-1"
+      x-effect="if (open) $nextTick(() => $refs.dialog.focus())"
     >
       <div class="flex items-start gap-4">
         <div
@@ -41,28 +49,34 @@
           <x-icons.exclamation-triangle class="h-5 w-5 text-red-600" />
         </div>
         <div>
-          <h3 class="text-lg font-semibold text-gray-900">{{ $title }}</h3>
-          <p class="mt-1 text-sm text-gray-500">{{ $message }}</p>
+          <h3 id="{{ $id }}-title" class="text-lg font-semibold text-gray-900">
+            {{ $title }}
+          </h3>
+          <p id="{{ $id }}-description" class="mt-1 text-sm text-gray-500">
+            {{ $message }}
+          </p>
         </div>
       </div>
 
       <div class="mt-6 flex justify-end gap-3">
-        <button
+        <x-ui.button
           type="button"
           @click="open = false"
-          class="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+          variant="secondary"
+          size="sm"
         >
           Batal
-        </button>
-        <button
+        </x-ui.button>
+        <x-ui.button
           type="button"
           @click="loading = true; $wire.call('delete').then(() => { open = false; loading = false; })"
-          class="inline-flex items-center rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700 disabled:opacity-50"
-          :disabled="loading"
+          variant="danger"
+          size="sm"
+          ::disabled="loading"
         >
           <x-icons.spinner x-show="loading" class="mr-2 h-4 w-4 animate-spin" />
           Hapus
-        </button>
+        </x-ui.button>
       </div>
     </div>
   </div>

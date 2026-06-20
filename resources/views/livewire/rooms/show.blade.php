@@ -50,17 +50,9 @@
       <p class="text-sm font-medium text-gray-500">Status</p>
       <div class="mt-2">
         @if ($room->current_occupancy < $room->capacity)
-          <span
-            class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-sm font-medium text-emerald-700"
-          >
-            Tersedia
-          </span>
+          <x-ui.badge variant="success">Tersedia</x-ui.badge>
         @else
-          <span
-            class="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-sm font-medium text-red-700"
-          >
-            Penuh
-          </span>
+          <x-ui.badge variant="danger">Penuh</x-ui.badge>
         @endif
       </div>
     </div>

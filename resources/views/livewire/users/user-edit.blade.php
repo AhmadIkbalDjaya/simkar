@@ -16,25 +16,22 @@
     </p>
   </div>
 
-  <div
-    class="max-w-2xl rounded-xl border border-gray-200 bg-white p-6 shadow-sm"
-  >
+  <x-ui.card class="max-w-2xl">
     <form wire:submit="update" class="space-y-5">
       @include("livewire.users.user-form", ["editing" => true])
 
       <div class="flex flex-col-reverse gap-3 pt-2 sm:flex-row">
-        <a
-          href="{{ route("users.index") }}"
+        <x-ui.button
+          :href="route('users.index')"
+          variant="secondary"
           wire:navigate
-          class="rounded-lg border border-gray-300 px-5 py-2.5 text-center text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
           Batal
-        </a>
-        <button
+        </x-ui.button>
+        <x-ui.button
           type="submit"
           wire:loading.attr="disabled"
           wire:target="update"
-          class="inline-flex items-center justify-center rounded-lg bg-gray-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
         >
           <x-icons.spinner
             wire:loading
@@ -42,8 +39,8 @@
             class="mr-2 h-4 w-4 animate-spin"
           />
           Simpan Perubahan
-        </button>
+        </x-ui.button>
       </div>
     </form>
-  </div>
+  </x-ui.card>
 </div>
