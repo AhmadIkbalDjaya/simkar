@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MutationQrCodeController;
 use App\Livewire\Auth\Login;
 use App\Livewire\Dashboard;
 use App\Livewire\Mutations;
@@ -61,6 +62,8 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:ADMIN,OFFICER')->group(function () {
         Route::get('/mutations', Mutations\Index::class)->name('mutations.index');
         Route::get('/mutations/create', Mutations\Create::class)->name('mutations.create');
+        Route::get('/mutations/qr-code', [MutationQrCodeController::class, 'image'])->name('mutations.qr.image');
+        Route::get('/mutations/qr-code/print', [MutationQrCodeController::class, 'print'])->name('mutations.qr.print');
         Route::get('/mutations/{mutation}', Mutations\Show::class)->name('mutations.show');
 
         Route::get('/reports/mutations', Reports\MutationReport::class)->name('reports.mutations');

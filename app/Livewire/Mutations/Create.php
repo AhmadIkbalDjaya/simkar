@@ -6,6 +6,7 @@ use App\Enums\UserRole;
 use App\Models\Inmate;
 use App\Models\Room;
 use App\Models\RoomTransfer;
+use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
@@ -27,6 +28,8 @@ class Create extends Component
     #[Validate('required|exists:rooms,id')]
     public ?int $room_to_id = null;
 
+    public ?string $roomQueryError = null;
+
     #[Validate('required|date')]
     public string $transferred_at = '';
 
@@ -45,13 +48,15 @@ class Create extends Component
 
         $this->transferred_at = now()->format('Y-m-d\TH:i');
         $this->officer_name = auth()->user()->name;
+
+        $this->prefillRoomFromQuery();
     }
 
     public function updatedInmateId(): void
     {
         $this->room_from_id = null;
         $this->room_from_name = null;
-        $this->room_to_id = null;
+        $selectedRoomId = $this->room_to_id;
 
         if ($this->inmate_id) {
             $inmate = Inmate::with('currentRoom')->find($this->inmate_id);
@@ -61,6 +66,15 @@ class Create extends Component
                 $this->room_from_name = $inmate->currentRoom->name;
             }
         }
+
+        $this->room_to_id = $selectedRoomId;
+        $this->validateRoomSelection();
+    }
+
+    public function updatedRoomToId(): void
+    {
+        $this->roomQueryError = null;
+        $this->validateRoomSelection();
     }
 
     public function rules(): array
@@ -68,7 +82,18 @@ class Create extends Component
         return [
             'inmate_id' => 'required|exists:inmates,id',
             'room_from_id' => 'required|exists:rooms,id',
-            'room_to_id' => ['required', 'exists:rooms,id', 'different:room_from_id'],
+            'room_to_id' => [
+                'required',
+                'exists:rooms,id',
+                'different:room_from_id',
+                function (string $attribute, mixed $value, Closure $fail): void {
+                    $room = Room::find($value);
+
+                    if ($room && $room->current_occupancy >= $room->capacity) {
+                        $fail('Kamar tujuan sudah penuh.');
+                    }
+                },
+            ],
             'transferred_at' => 'required|date',
             'officer_name' => 'required|string|max:255',
             'officer_signature' => 'required|string',
@@ -135,8 +160,16 @@ class Create extends Component
             ->orderBy('name')
             ->get(['id', 'name', 'registration_number']);
 
-        $availableRooms = Room::whereRaw('current_occupancy < capacity')
-            ->when($this->room_from_id, fn ($q) => $q->where('id', '!=', $this->room_from_id))
+        $availableRooms = Room::where(function ($query) {
+            $query->whereRaw('current_occupancy < capacity')
+                ->when($this->room_to_id, fn ($query) => $query->orWhere('id', $this->room_to_id));
+        })
+            ->when($this->room_from_id, function ($query) {
+                $query->where(function ($query) {
+                    $query->where('id', '!=', $this->room_from_id)
+                        ->when($this->room_to_id, fn ($query) => $query->orWhere('id', $this->room_to_id));
+                });
+            })
             ->orderBy('name')
             ->get(['id', 'name', 'capacity', 'current_occupancy']);
 
@@ -146,5 +179,48 @@ class Create extends Component
     private function authorizeAccess(): void
     {
         abort_unless(auth()->user()?->hasRole(UserRole::Admin, UserRole::Officer), 403);
+    }
+
+    private function prefillRoomFromQuery(): void
+    {
+        if (! request()->query->has('room')) {
+            return;
+        }
+
+        $roomId = filter_var(request()->query('room'), FILTER_VALIDATE_INT, [
+            'options' => ['min_range' => 1],
+        ]);
+
+        $room = $roomId === false ? null : Room::find($roomId);
+
+        if (! $room) {
+            $this->roomQueryError = 'QR kamar tidak valid atau kamar sudah tidak tersedia.';
+
+            return;
+        }
+
+        $this->room_to_id = $room->id;
+        $this->validateRoomSelection();
+    }
+
+    private function validateRoomSelection(): void
+    {
+        $this->resetValidation('room_to_id');
+
+        if (! $this->room_to_id) {
+            return;
+        }
+
+        $room = Room::find($this->room_to_id);
+
+        if ($room && $room->current_occupancy >= $room->capacity) {
+            $this->addError('room_to_id', 'Kamar tujuan sudah penuh.');
+
+            return;
+        }
+
+        if ($this->room_from_id === $this->room_to_id) {
+            $this->addError('room_to_id', 'WBP sudah berada di kamar tujuan ini.');
+        }
     }
 }

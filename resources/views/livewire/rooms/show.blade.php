@@ -14,16 +14,26 @@
       </a>
       <h1 class="mt-2 text-2xl font-bold text-gray-900">{{ $room->name }}</h1>
     </div>
-    @if (auth()->user()->role === \App\Enums\UserRole::Admin)
-      <a
-        href="{{ route("rooms.edit", $room) }}"
-        wire:navigate
-        class="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-gray-800"
+    <div class="flex flex-wrap items-center gap-3">
+      <x-ui.button
+        type="button"
+        variant="secondary"
+        x-on:click="$dispatch('open-qr-modal', { id: 'room-mutation-qr' })"
       >
-        <x-icons.pencil class="h-4 w-4" />
-        Edit Kamar
-      </a>
-    @endif
+        <x-icons.qr-code class="h-4 w-4" />
+        QR Kamar
+      </x-ui.button>
+      @if (auth()->user()->role === \App\Enums\UserRole::Admin)
+        <a
+          href="{{ route("rooms.edit", $room) }}"
+          wire:navigate
+          class="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-gray-800"
+        >
+          <x-icons.pencil class="h-4 w-4" />
+          Edit Kamar
+        </a>
+      @endif
+    </div>
   </div>
 
   {{-- Room Info --}}
@@ -157,4 +167,15 @@
       </div>
     @endif
   </div>
+
+  <x-qr-code-modal
+    id="room-mutation-qr"
+    title="QR Mutasi {{ $room->name }}"
+    description="Pindai untuk membuka form mutasi dengan {{ $room->name }} sebagai kamar tujuan."
+    :target-url="route('mutations.create', ['room' => $room->id])"
+    :image-url="route('mutations.qr.image', ['room' => $room->id])"
+    :download-url="route('mutations.qr.image', ['room' => $room->id, 'download' => 1])"
+    :print-url="route('mutations.qr.print', ['room' => $room->id])"
+    filename="qr-mutasi-kamar-{{ $room->id }}.png"
+  />
 </div>

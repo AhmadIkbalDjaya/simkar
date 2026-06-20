@@ -1,19 +1,40 @@
 <div>
   {{-- Header --}}
-  <div class="mb-6">
-    <a
-      href="{{ route("mutations.index") }}"
-      wire:navigate
-      class="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700"
+  <div
+    class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
+  >
+    <div>
+      <a
+        href="{{ route("mutations.index") }}"
+        wire:navigate
+        class="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700"
+      >
+        <x-icons.arrow-left class="h-4 w-4" />
+        Kembali
+      </a>
+      <h1 class="mt-2 text-2xl font-bold text-gray-900">Buat Mutasi</h1>
+    </div>
+    <x-ui.button
+      type="button"
+      variant="secondary"
+      x-on:click="$dispatch('open-qr-modal', { id: 'general-mutation-qr' })"
     >
-      <x-icons.arrow-left class="h-4 w-4" />
-      Kembali
-    </a>
-    <h1 class="mt-2 text-2xl font-bold text-gray-900">Buat Mutasi</h1>
+      <x-icons.qr-code class="h-4 w-4" />
+      QR Input Mutasi
+    </x-ui.button>
   </div>
 
   {{-- Form --}}
   <x-ui.card class="max-w-2xl">
+    @if ($roomQueryError)
+      <div
+        class="mb-5 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800"
+        role="alert"
+      >
+        {{ $roomQueryError }} Silakan pilih kamar tujuan secara manual.
+      </div>
+    @endif
+
     <form
       wire:submit="save"
       class="space-y-5"
@@ -49,6 +70,9 @@
           <option value="{{ $room->id }}">
             {{ $room->name }}
             ({{ $room->current_occupancy }}/{{ $room->capacity }})
+            @if ($room->current_occupancy >= $room->capacity)
+              — Penuh
+            @endif
           </option>
         @endforeach
       </x-ui.select>
@@ -131,6 +155,17 @@
       </div>
     </form>
   </x-ui.card>
+
+  <x-qr-code-modal
+    id="general-mutation-qr"
+    title="QR Input Mutasi"
+    description="Pindai untuk membuka form input mutasi tanpa kamar tujuan terpilih."
+    :target-url="route('mutations.create')"
+    :image-url="route('mutations.qr.image')"
+    :download-url="route('mutations.qr.image', ['download' => 1])"
+    :print-url="route('mutations.qr.print')"
+    filename="qr-input-mutasi.png"
+  />
 </div>
 
 @script

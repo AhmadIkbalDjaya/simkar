@@ -7,10 +7,20 @@
       <h1 class="text-2xl font-bold text-gray-900">Riwayat Mutasi</h1>
       <p class="mt-1 text-sm text-gray-500">Riwayat perpindahan kamar WBP.</p>
     </div>
-    <x-ui.button :href="route('mutations.create')" wire:navigate>
-      <x-icons.plus class="h-4 w-4" />
-      Buat Mutasi
-    </x-ui.button>
+    <div class="flex flex-wrap items-center gap-3">
+      <x-ui.button
+        type="button"
+        variant="secondary"
+        x-on:click="$dispatch('open-qr-modal', { id: 'general-mutation-qr' })"
+      >
+        <x-icons.qr-code class="h-4 w-4" />
+        QR Input Mutasi
+      </x-ui.button>
+      <x-ui.button :href="route('mutations.create')" wire:navigate>
+        <x-icons.plus class="h-4 w-4" />
+        Buat Mutasi
+      </x-ui.button>
+    </div>
   </div>
 
   {{-- Filters --}}
@@ -156,4 +166,15 @@
       @endif
     @endif
   </x-ui.card>
+
+  <x-qr-code-modal
+    id="general-mutation-qr"
+    title="QR Input Mutasi"
+    description="Pindai untuk membuka form input mutasi tanpa kamar tujuan terpilih."
+    :target-url="route('mutations.create')"
+    :image-url="route('mutations.qr.image')"
+    :download-url="route('mutations.qr.image', ['download' => 1])"
+    :print-url="route('mutations.qr.print')"
+    filename="qr-input-mutasi.png"
+  />
 </div>

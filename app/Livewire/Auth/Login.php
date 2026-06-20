@@ -35,6 +35,6 @@ class Login extends Component
 
         session()->flash('success', 'Login berhasil. Selamat datang!');
 
-        $this->redirect(route('dashboard'), navigate: true);
+        $this->redirectIntended(route('dashboard'), navigate: true);
     }
 }
