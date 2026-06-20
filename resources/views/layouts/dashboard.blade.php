@@ -13,7 +13,7 @@
   <body class="bg-gray-100 font-sans antialiased">
     <div
       x-data="{ sidebarOpen: false }"
-      class="flex h-screen overflow-hidden"
+      class="fixed inset-0 flex overflow-hidden"
     >
       {{-- Mobile overlay --}}
       <div
