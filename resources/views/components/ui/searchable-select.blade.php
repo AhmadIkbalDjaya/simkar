@@ -87,7 +87,7 @@
         @click="clearSelection()"
         class="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
       >
-        &times;
+        <x-icons.x class="h-3 w-3" />
       </button>
       <button
         type="button"
