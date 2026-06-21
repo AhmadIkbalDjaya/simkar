@@ -42,14 +42,40 @@
       x-init="init()"
     >
       {{-- WBP --}}
-      <x-ui.select name="inmate_id" label="WBP" wire:model.live="inmate_id">
-        <option value="">Pilih WBP</option>
-        @foreach ($inmates as $inmate)
-          <option value="{{ $inmate->id }}">
-            {{ $inmate->name }} ({{ $inmate->registration_number }})
-          </option>
-        @endforeach
-      </x-ui.select>
+      @php
+        $inmateOptions = $inmates->map(
+          fn ($inmate) => [
+            "value" => $inmate->id,
+            "label" => $inmate->name . " (" . $inmate->registration_number . ")",
+            "search" => $inmate->name . " " . $inmate->registration_number,
+          ],
+        );
+        $roomOptions = $availableRooms->map(
+          fn ($room) => [
+            "value" => $room->id,
+            "label" =>
+              $room->name .
+              " (" .
+              $room->current_occupancy .
+              "/" .
+              $room->capacity .
+              ")" .
+              ($room->current_occupancy >= $room->capacity ? " — Penuh" : ""),
+            "search" => $room->name,
+          ],
+        );
+      @endphp
+
+      <x-ui.searchable-select
+        name="inmate_id"
+        label="WBP"
+        :options="$inmateOptions"
+        :selected="$inmate_id"
+        placeholder="Cari nama atau nomor registrasi WBP..."
+        empty-message="WBP tidak ditemukan."
+        wire:model.live="inmate_id"
+        wire:key="inmate-search-{{ $inmate_id ?? 0 }}"
+      />
 
       {{-- Kamar Asal --}}
       <x-ui.input
@@ -60,22 +86,16 @@
       />
 
       {{-- Kamar Tujuan --}}
-      <x-ui.select
+      <x-ui.searchable-select
         name="room_to_id"
         label="Kamar Tujuan"
-        wire:model="room_to_id"
-      >
-        <option value="">Pilih kamar tujuan</option>
-        @foreach ($availableRooms as $room)
-          <option value="{{ $room->id }}">
-            {{ $room->name }}
-            ({{ $room->current_occupancy }}/{{ $room->capacity }})
-            @if ($room->current_occupancy >= $room->capacity)
-              — Penuh
-            @endif
-          </option>
-        @endforeach
-      </x-ui.select>
+        :options="$roomOptions"
+        :selected="$room_to_id"
+        placeholder="Cari kamar tujuan..."
+        empty-message="Kamar tujuan tidak ditemukan."
+        wire:model.live="room_to_id"
+        wire:key="room-to-search-{{ $room_from_id ?? 0 }}-{{ $room_to_id ?? 0 }}"
+      />
 
       {{-- Waktu Mutasi --}}
       <x-ui.input

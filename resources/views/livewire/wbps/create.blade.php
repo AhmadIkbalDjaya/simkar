@@ -13,7 +13,7 @@
   </div>
 
   {{-- Form --}}
-  <x-ui.card class="max-w-2xl">
+  <x-ui.card class="relative z-10 max-w-2xl" :overflow-hidden="false">
     <form wire:submit="save" class="space-y-5">
       <x-ui.input
         name="form.registration_number"
@@ -39,23 +39,34 @@
         <option value="female">Perempuan</option>
       </x-ui.select>
 
-      <x-ui.select
+      @php
+        $roomOptions = $rooms->map(
+          fn ($room) => [
+            "value" => $room->id,
+            "label" =>
+              $room->name .
+              " (" .
+              $room->current_occupancy .
+              "/" .
+              $room->capacity .
+              ")" .
+              ($room->current_occupancy >= $room->capacity ? " — Penuh" : ""),
+            "search" => $room->name,
+            "disabled" => $room->current_occupancy >= $room->capacity,
+          ],
+        );
+      @endphp
+
+      <x-ui.searchable-select
         name="form.current_room_id"
         label="Kamar Saat Ini"
-        wire:model="form.current_room_id"
-      >
-        <option value="">Belum ditempatkan</option>
-        @foreach ($rooms as $room)
-          <option
-            value="{{ $room->id }}"
-            {{ $room->current_occupancy >= $room->capacity ? "disabled" : "" }}
-          >
-            {{ $room->name }}
-            ({{ $room->current_occupancy }}/{{ $room->capacity }})
-            {{ $room->current_occupancy >= $room->capacity ? "- Penuh" : "" }}
-          </option>
-        @endforeach
-      </x-ui.select>
+        :options="$roomOptions"
+        :selected="$form->current_room_id"
+        placeholder="Cari kamar saat ini..."
+        empty-message="Kamar tidak ditemukan."
+        wire:model.live="form.current_room_id"
+        wire:key="current-room-search-{{ $form->current_room_id ?? 0 }}"
+      />
 
       <div class="flex items-center gap-3 pt-2">
         <x-ui.button type="submit" wire:loading.attr="disabled">

@@ -19,8 +19,9 @@
 
   {{-- Filters --}}
   <x-ui.card
-    class="mb-6 flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:flex-row"
+    class="relative z-10 mb-6 flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:flex-row"
     :padding="false"
+    :overflow-hidden="false"
   >
     <div class="flex-1">
       <x-ui.input
@@ -33,8 +34,8 @@
     </div>
     <div class="sm:w-44">
       <x-ui.select
-        id="wbp-room"
-        label="Filter kamar"
+        id="wbp-gender"
+        label="Filter jenis kelamin"
         label-sr-only
         wire:model.live="gender"
       >
@@ -43,18 +44,29 @@
         <option value="female">Perempuan</option>
       </x-ui.select>
     </div>
+    @php
+      $roomOptions = $rooms->map(
+        fn ($room) => [
+          "value" => $room->id,
+          "label" => $room->name,
+        ],
+      );
+    @endphp
+
     <div class="sm:w-48">
-      <x-ui.select
-        id="wbp-gender"
-        label="Filter jenis kelamin"
+      <x-ui.searchable-select
+        id="wbp-room"
+        name="roomId"
+        label="Filter kamar"
         label-sr-only
+        :options="$roomOptions"
+        :selected="$roomId"
+        empty-value=""
+        placeholder="Semua Kamar"
+        empty-message="Kamar tidak ditemukan."
         wire:model.live="roomId"
-      >
-        <option value="">Semua Kamar</option>
-        @foreach ($rooms as $room)
-          <option value="{{ $room->id }}">{{ $room->name }}</option>
-        @endforeach
-      </x-ui.select>
+        wire:key="wbp-room-filter-{{ $roomId ?: 0 }}"
+      />
     </div>
   </x-ui.card>
 

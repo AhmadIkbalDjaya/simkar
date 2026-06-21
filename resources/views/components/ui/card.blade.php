@@ -1,7 +1,13 @@
-@props(["padding" => true])
+@props(["padding" => true, "overflowHidden" => true])
 
 <section
-  {{ $attributes->merge(["class" => "overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm"]) }}
+  {{
+    $attributes->class([
+      "rounded-xl border border-gray-200 bg-white shadow-sm",
+      "overflow-hidden" => $overflowHidden,
+      "overflow-visible" => ! $overflowHidden,
+    ])
+  }}
 >
   @isset($header)
     <header class="border-b border-gray-200 px-5 py-4 sm:px-6">
