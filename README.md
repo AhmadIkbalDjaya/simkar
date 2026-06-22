@@ -1,58 +1,176 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SIMKAR
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+SIMKAR (**Sistem Informasi Mutasi Kamar**) adalah aplikasi web untuk mencatat, mengelola, dan memantau perpindahan Warga Binaan Pemasyarakatan (WBP) antar kamar. Aplikasi ini membantu menggantikan pencatatan manual dengan riwayat mutasi yang mudah dicari, dipantau, dan diekspor.
 
-## About Laravel
+## Fitur utama
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Dashboard ringkasan WBP, kamar, kapasitas, dan mutasi terbaru
+- Pengelolaan data WBP dan penempatan kamar
+- Pengelolaan kamar beserta pemantauan kapasitas
+- Pencatatan dan riwayat mutasi kamar
+- QR code umum atau per kamar untuk mempercepat input mutasi
+- Filter laporan berdasarkan tanggal, petugas, dan kamar
+- Ekspor laporan ke PDF dan Excel
+- Manajemen pengguna dengan hak akses Admin dan Petugas
+- Pengelolaan profil dan perubahan kata sandi
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Hak akses
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Fitur | Admin | Petugas |
+| --- | :---: | :---: |
+| Dashboard | ✓ | ✓ |
+| Melihat data kamar dan WBP | ✓ | ✓ |
+| Mengelola data kamar dan WBP | ✓ | — |
+| Membuat dan melihat mutasi | ✓ | ✓ |
+| Melihat dan mengekspor laporan | ✓ | ✓ |
+| Mengelola pengguna | ✓ | — |
 
-## Learning Laravel
+## Teknologi
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- PHP 8.3+
+- Laravel 13
+- Livewire 4 dan Blade
+- Tailwind CSS 4
+- Vite 8
+- MySQL
+- DomPDF, Laravel Excel, dan Endroid QR Code
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Persyaratan
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Pastikan perangkat pengembangan telah memiliki:
 
-## Agentic Development
+- PHP 8.3 atau lebih baru beserta ekstensi yang diperlukan Composer
+- Composer
+- Node.js dan npm
+- MySQL
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Instalasi
+
+1. Clone repositori dan masuk ke direktorinya.
+
+   ```bash
+   git clone <repository-url> simkar
+   cd simkar
+   ```
+
+2. Instal dependensi PHP dan salin konfigurasi lingkungan.
+
+   ```bash
+   composer install
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+   Pada Windows PowerShell, gunakan `Copy-Item .env.example .env` sebagai pengganti perintah `cp`.
+
+3. Buat database MySQL, lalu sesuaikan bagian berikut pada `.env`.
+
+   ```dotenv
+   APP_NAME=SIMKAR
+   APP_URL=http://localhost:8000
+
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=simkar
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+
+4. Jalankan migrasi dan buat akun administrator awal.
+
+   ```bash
+   php artisan migrate --seed
+   ```
+
+5. Instal dependensi frontend dan bangun aset.
+
+   ```bash
+   npm install
+   npm run build
+   ```
+
+6. Jalankan aplikasi.
+
+   ```bash
+   composer run dev
+   ```
+
+   Aplikasi tersedia di [http://localhost:8000](http://localhost:8000).
+
+### Data demo opsional
+
+Untuk menambahkan contoh petugas, kamar, WBP, dan riwayat mutasi setelah menjalankan seeder utama:
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+php artisan db:seed --class=DevSeeder
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Jangan menjalankan `DevSeeder` pada lingkungan produksi karena data yang dibuat bersifat contoh.
 
-## Contributing
+## Akun awal
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Seeder utama membuat akun berikut khusus untuk instalasi lokal:
 
-## Code of Conduct
+| Email | Kata sandi | Peran |
+| --- | --- | --- |
+| `admin@simkar.test` | `password` | Admin |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Segera ubah kata sandi melalui halaman profil, terutama jika aplikasi dapat diakses dari jaringan lain.
 
-## Security Vulnerabilities
+## Perintah pengembangan
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+# Menjalankan server, worker antrean, log viewer, dan Vite
+composer run dev
 
-## License
+# Menjalankan seluruh pengujian
+composer test
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Memformat kode PHP
+./vendor/bin/pint
+
+# Memformat Blade
+npm run format
+
+# Membuat aset untuk produksi
+npm run build
+```
+
+## Deployment singkat
+
+Pada lingkungan produksi:
+
+```bash
+composer install --no-dev --optimize-autoloader
+npm install --ignore-scripts
+npm run build
+php artisan migrate --force
+php artisan optimize
+```
+
+Pastikan `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL` sesuai domain, web server mengarah ke direktori `public`, serta direktori `storage` dan `bootstrap/cache` dapat ditulis oleh proses web server. Siapkan worker antrean jika `QUEUE_CONNECTION` tidak menggunakan `sync`.
+
+## Dokumentasi
+
+- [Product Requirements Document — Indonesia](docs/SIMKAR-PRD-ID.md)
+- [Product Requirements Document — English](docs/SIMKAR-PRD-EN.md)
+- [Daftar halaman — Indonesia](docs/SIMKAR-Pages-ID.md)
+- [Daftar halaman — English](docs/SIMKAR-Pages-EN.md)
+- [Diagram basis data](docs/db/dbdiagram.png)
+
+## Struktur penting
+
+```text
+app/Livewire/          Komponen halaman dan logika antarmuka
+app/Models/            Model data aplikasi
+database/migrations/  Struktur tabel basis data
+database/seeders/     Seeder akun awal dan data demo
+resources/views/      Tampilan Blade
+routes/web.php         Daftar route aplikasi
+tests/                 Pengujian unit dan fitur
+```
+
+## Lisensi
+
+Proyek ini menggunakan lisensi MIT sebagaimana dinyatakan dalam `composer.json`.
