@@ -1,70 +1,66 @@
 # SIMKAR
 
-SIMKAR (**Sistem Informasi Mutasi Kamar**) adalah aplikasi web untuk mencatat, mengelola, dan memantau perpindahan Warga Binaan Pemasyarakatan (WBP) antar kamar. Aplikasi ini membantu menggantikan pencatatan manual dengan riwayat mutasi yang mudah dicari, dipantau, dan diekspor.
+**English** | [Bahasa Indonesia](README.id.md)
 
-## Fitur utama
+SIMKAR (**Room Transfer Information System**) is a web application for recording, managing, and monitoring room transfers of incarcerated residents (WBP). It replaces manual record-keeping with searchable transfer histories, room occupancy monitoring, and report exports.
 
-- Dashboard ringkasan WBP, kamar, kapasitas, dan mutasi terbaru
-- Pengelolaan data WBP dan penempatan kamar
-- Pengelolaan kamar beserta pemantauan kapasitas
-- Pencatatan dan riwayat mutasi kamar
-- QR code umum atau per kamar untuk mempercepat input mutasi
-- Filter laporan berdasarkan tanggal, petugas, dan kamar
-- Ekspor laporan ke PDF dan Excel
-- Manajemen pengguna dengan hak akses Admin dan Petugas
-- Pengelolaan profil dan perubahan kata sandi
+## Key features
 
-## Hak akses
+- Dashboard summarizing WBP records, rooms, occupancy, and recent transfers
+- WBP record and room assignment management
+- Room management with capacity monitoring
+- Room transfer recording and history
+- General and room-specific QR codes for faster transfer entry
+- Report filtering by date, officer, and room
+- PDF and Excel report exports
+- Admin and Officer role-based access control
+- Profile management and password changes
 
-| Fitur | Admin | Petugas |
-| --- | :---: | :---: |
-| Dashboard | ✓ | ✓ |
-| Melihat data kamar dan WBP | ✓ | ✓ |
-| Mengelola data kamar dan WBP | ✓ | — |
-| Membuat dan melihat mutasi | ✓ | ✓ |
-| Melihat dan mengekspor laporan | ✓ | ✓ |
-| Mengelola pengguna | ✓ | — |
+## Access control
 
-## Teknologi
+| Feature                      | Admin | Officer |
+| ---------------------------- | :---: | :-----: |
+| Dashboard                    |  Yes  |   Yes   |
+| View rooms and WBP records   |  Yes  |   Yes   |
+| Manage rooms and WBP records |  Yes  |    No   |
+| Create and view transfers    |  Yes  |   Yes   |
+| View and export reports      |  Yes  |   Yes   |
+| Manage users                 |  Yes  |    No   |
+
+## Technology stack
 
 - PHP 8.3+
 - Laravel 13
-- Livewire 4 dan Blade
+- Livewire 4 and Blade
 - Tailwind CSS 4
 - Vite 8
 - MySQL
-- DomPDF, Laravel Excel, dan Endroid QR Code
+- DomPDF, Laravel Excel, and Endroid QR Code
 
-## Persyaratan
+## Requirements
 
-Pastikan perangkat pengembangan telah memiliki:
+Make sure your development environment includes:
 
-- PHP 8.3 atau lebih baru beserta ekstensi yang diperlukan Composer
+- PHP 8.3 or newer with the extensions required by Composer
 - Composer
-- Node.js dan npm
+- Node.js and npm
 - MySQL
 
-## Instalasi
+## Installation
 
-1. Clone repositori dan masuk ke direktorinya.
-
+1. Clone the repository and enter its directory.
    ```bash
    git clone <repository-url> simkar
    cd simkar
    ```
-
-2. Instal dependensi PHP dan salin konfigurasi lingkungan.
-
+2. Install the PHP dependencies and create the environment file.
    ```bash
    composer install
    cp .env.example .env
    php artisan key:generate
    ```
-
-   Pada Windows PowerShell, gunakan `Copy-Item .env.example .env` sebagai pengganti perintah `cp`.
-
-3. Buat database MySQL, lalu sesuaikan bagian berikut pada `.env`.
-
+   On Windows PowerShell, use `Copy-Item .env.example .env` instead of `cp`.
+3. Create a MySQL database, then update the following values in `.env`.
    ```dotenv
    APP_NAME=SIMKAR
    APP_URL=http://localhost:8000
@@ -76,70 +72,63 @@ Pastikan perangkat pengembangan telah memiliki:
    DB_USERNAME=root
    DB_PASSWORD=
    ```
-
-4. Jalankan migrasi dan buat akun administrator awal.
-
+4. Run the migrations and create the initial administrator account.
    ```bash
    php artisan migrate --seed
    ```
-
-5. Instal dependensi frontend dan bangun aset.
-
+5. Install the frontend dependencies and build the assets.
    ```bash
    npm install
    npm run build
    ```
-
-6. Jalankan aplikasi.
-
+6. Start the application.
    ```bash
    composer run dev
    ```
+   The application will be available at <http://localhost:8000>.
 
-   Aplikasi tersedia di [http://localhost:8000](http://localhost:8000).
+### Optional demo data
 
-### Data demo opsional
-
-Untuk menambahkan contoh petugas, kamar, WBP, dan riwayat mutasi setelah menjalankan seeder utama:
+After running the main seeder, you can add sample officers, rooms, WBP records, and transfer history:
 
 ```bash
 php artisan db:seed --class=DevSeeder
 ```
 
-Jangan menjalankan `DevSeeder` pada lingkungan produksi karena data yang dibuat bersifat contoh.
+Do not run `DevSeeder` in production because it creates sample data.
 
-## Akun awal
+## Initial account
 
-Seeder utama membuat akun berikut khusus untuk instalasi lokal:
+The main seeder creates the following account for local installation:
 
-| Email | Kata sandi | Peran |
-| --- | --- | --- |
+| Email               | Password   | Role  |
+| ------------------- | ---------- | ----- |
 | `admin@simkar.test` | `password` | Admin |
 
-Segera ubah kata sandi melalui halaman profil, terutama jika aplikasi dapat diakses dari jaringan lain.
+Change this password immediately from the profile page, especially when the application is accessible from another network.
 
-## Perintah pengembangan
+## Development commands
 
 ```bash
-# Menjalankan server, worker antrean, log viewer, dan Vite
+# Start the server, queue worker, log viewer, and Vite
 composer run dev
 
-# Menjalankan seluruh pengujian
+# Run the complete test suite
 composer test
 
-# Memformat kode PHP
+# Format PHP code
 ./vendor/bin/pint
 
-# Memformat Blade
+# Format Blade templates
 npm run format
 
-# Membuat aset untuk produksi
+# Build production assets
 npm run build
 ```
 
-## Deployment singkat
+## Production deployment
 
-Pada lingkungan produksi:
+For a production environment:
 
 ```bash
 composer install --no-dev --optimize-autoloader
@@ -149,28 +138,31 @@ php artisan migrate --force
 php artisan optimize
 ```
 
-Pastikan `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL` sesuai domain, web server mengarah ke direktori `public`, serta direktori `storage` dan `bootstrap/cache` dapat ditulis oleh proses web server. Siapkan worker antrean jika `QUEUE_CONNECTION` tidak menggunakan `sync`.
+Set `APP_ENV=production`, `APP_DEBUG=false`, and `APP_URL` to the deployed domain. Configure the web server document root to use the `public` directory, and ensure that `storage` and `bootstrap/cache` are writable by the web server process. Run a queue worker when `QUEUE_CONNECTION` is not set to `sync`.
 
-## Dokumentasi
+## Documentation
 
-- [Product Requirements Document — Indonesia](docs/SIMKAR-PRD-ID.md)
 - [Product Requirements Document — English](docs/SIMKAR-PRD-EN.md)
-- [Daftar halaman — Indonesia](docs/SIMKAR-Pages-ID.md)
-- [Daftar halaman — English](docs/SIMKAR-Pages-EN.md)
-- [Diagram basis data](docs/db/dbdiagram.png)
+- [Product Requirements Document — Indonesian](docs/SIMKAR-PRD-ID.md)
+- [Page list — English](docs/SIMKAR-Pages-EN.md)
+- [Page list — Indonesian](docs/SIMKAR-Pages-ID.md)
 
-## Struktur penting
+## Database diagram
+
+[![SIMKAR database diagram](docs/db/dbdiagram.png)](docs/db/dbdiagram.png)
+
+## Project structure
 
 ```text
-app/Livewire/          Komponen halaman dan logika antarmuka
-app/Models/            Model data aplikasi
-database/migrations/  Struktur tabel basis data
-database/seeders/     Seeder akun awal dan data demo
-resources/views/      Tampilan Blade
-routes/web.php         Daftar route aplikasi
-tests/                 Pengujian unit dan fitur
+app/Livewire/          Page components and interface logic
+app/Models/            Application data models
+database/migrations/  Database table definitions
+database/seeders/     Initial account and demo data seeders
+resources/views/      Blade templates
+routes/web.php         Application routes
+tests/                 Unit and feature tests
 ```
 
-## Lisensi
+## License
 
-Proyek ini menggunakan lisensi MIT sebagaimana dinyatakan dalam `composer.json`.
+This project is distributed under the MIT License, as declared in `composer.json`.
