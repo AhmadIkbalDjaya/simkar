@@ -33,46 +33,38 @@ Route::middleware('auth')->group(function () {
         ->middleware('role:ADMIN,OFFICER')
         ->name('dashboard');
 
-    Route::get('/rooms', Rooms\Index::class)
-        ->middleware('role:ADMIN,OFFICER')
-        ->name('rooms.index');
-    Route::get('/rooms/create', Rooms\Create::class)
-        ->middleware('role:ADMIN')
-        ->name('rooms.create');
-    Route::get('/rooms/{room}', Rooms\Show::class)
-        ->middleware('role:ADMIN,OFFICER')
-        ->name('rooms.show');
-    Route::get('/rooms/{room}/edit', Rooms\Edit::class)
-        ->middleware('role:ADMIN')
-        ->name('rooms.edit');
+    // Note: static segments (/create) are declared before /{param} routes so they
+    // are not captured as route model parameters.
+    Route::prefix('rooms')->name('rooms.')->group(function () {
+        Route::get('/', Rooms\Index::class)->middleware('role:ADMIN,OFFICER')->name('index');
+        Route::get('/create', Rooms\Create::class)->middleware('role:ADMIN')->name('create');
+        Route::get('/{room}', Rooms\Show::class)->middleware('role:ADMIN,OFFICER')->name('show');
+        Route::get('/{room}/edit', Rooms\Edit::class)->middleware('role:ADMIN')->name('edit');
+    });
 
-    Route::get('/wbps', Wbps\Index::class)
-        ->middleware('role:ADMIN,OFFICER')
-        ->name('wbps.index');
-    Route::get('/wbps/create', Wbps\Create::class)
-        ->middleware('role:ADMIN')
-        ->name('wbps.create');
-    Route::get('/wbps/{wbp}', Wbps\Show::class)
-        ->middleware('role:ADMIN,OFFICER')
-        ->name('wbps.show');
-    Route::get('/wbps/{wbp}/edit', Wbps\Edit::class)
-        ->middleware('role:ADMIN')
-        ->name('wbps.edit');
+    Route::prefix('wbps')->name('wbps.')->group(function () {
+        Route::get('/', Wbps\Index::class)->middleware('role:ADMIN,OFFICER')->name('index');
+        Route::get('/create', Wbps\Create::class)->middleware('role:ADMIN')->name('create');
+        Route::get('/{wbp}', Wbps\Show::class)->middleware('role:ADMIN,OFFICER')->name('show');
+        Route::get('/{wbp}/edit', Wbps\Edit::class)->middleware('role:ADMIN')->name('edit');
+    });
 
     Route::middleware('role:ADMIN,OFFICER')->group(function () {
-        Route::get('/mutations', Mutations\Index::class)->name('mutations.index');
-        Route::get('/mutations/create', Mutations\Create::class)->name('mutations.create');
-        Route::get('/mutations/qr-code', [MutationQrCodeController::class, 'image'])->name('mutations.qr.image');
-        Route::get('/mutations/qr-code/print', [MutationQrCodeController::class, 'print'])->name('mutations.qr.print');
-        Route::get('/mutations/{mutation}', Mutations\Show::class)->name('mutations.show');
+        Route::prefix('mutations')->name('mutations.')->group(function () {
+            Route::get('/', Mutations\Index::class)->name('index');
+            Route::get('/create', Mutations\Create::class)->name('create');
+            Route::get('/qr-code', [MutationQrCodeController::class, 'image'])->name('qr.image');
+            Route::get('/qr-code/print', [MutationQrCodeController::class, 'print'])->name('qr.print');
+            Route::get('/{mutation}', Mutations\Show::class)->name('show');
+        });
 
         Route::get('/reports/mutations', Reports\MutationReport::class)->name('reports.mutations');
     });
 
-    Route::middleware('role:ADMIN')->group(function () {
-        Route::get('/users', UserIndex::class)->name('users.index');
-        Route::get('/users/create', UserCreate::class)->name('users.create');
-        Route::get('/users/{user}/edit', UserEdit::class)->name('users.edit');
+    Route::middleware('role:ADMIN')->prefix('users')->name('users.')->group(function () {
+        Route::get('/', UserIndex::class)->name('index');
+        Route::get('/create', UserCreate::class)->name('create');
+        Route::get('/{user}/edit', UserEdit::class)->name('edit');
     });
 
     Route::post('/logout', function (Request $request) {
