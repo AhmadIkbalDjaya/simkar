@@ -307,7 +307,7 @@
     {
         "block_id": 3,
         "code": "CA6",
-        "name": "Strap Cell",
+        "name": "Kamar CA6 (Strap Cell)",
         "status": "active",
         "capacity": 25,
         "current_occupancy": 0
