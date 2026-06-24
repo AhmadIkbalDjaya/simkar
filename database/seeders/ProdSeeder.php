@@ -5,10 +5,12 @@ namespace Database\Seeders;
 use App\Models\Block;
 use App\Models\Inmate;
 use App\Models\Room;
-use App\Models\RoomTransfer;
-use App\Models\User;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use JsonException;
 
 class ProdSeeder extends Seeder
 {
@@ -16,86 +18,148 @@ class ProdSeeder extends Seeder
 
     public function run(): void
     {
-        $rooms = [
-            'A' => [
-                ...$this->numberedRooms('AA', 9),
-                ...$this->numberedRooms('AB', 9),
-            ],
-            'B' => [
-                ...$this->numberedRooms('BA', 10),
-                ...$this->numberedRooms('BB', 10),
-            ],
-            'C' => [
-                ...$this->numberedRooms('CA', 6),
-                ...$this->numberedRooms('CB', 6),
-            ],
-            'D' => ['KLINIK', 'LANSIA', 'REHAB'],
-        ];
+        DB::transaction(function (): void {
+            $blockIds = $this->seedBlocks();
+            $roomIds = $this->seedRooms($blockIds);
 
-        foreach ($rooms as $block => $roomCodes) {
-            $blockModel = Block::query()->updateOrCreate(
-                ['code' => $block],
-                ['name' => "Blok {$block}"],
-            );
-
-            foreach ($roomCodes as $code) {
-                Room::query()->updateOrCreate(
-                    ['code' => $code],
-                    [
-                        'block_id' => $blockModel->id,
-                        'name' => "Kamar {$code}",
-                        'capacity' => 10,
-                    ],
-                );
-            }
-        }
-
-        // Temporary
-
-        // Officer users
-        $officers = User::factory(5)->officer()->create();
-        // Inmates assigned to random rooms
-        $rooms = Room::query()->get();
-        $inmates = Inmate::factory(50)->create()->each(function (Inmate $inmate) use ($rooms) {
-            $room = $rooms->random();
-
-            if ($room->current_occupancy < $room->capacity) {
-                $inmate->update(['current_room_id' => $room->id]);
-                $room->increment('current_occupancy');
-            }
+            $this->seedInmates($roomIds);
+            $this->syncRoomOccupancy();
         });
-
-        // Room transfers (historical records)
-        $allUsers = $officers;
-
-        $inmates->filter(fn ($inmate) => $inmate->current_room_id !== null)->take(30)->each(function (Inmate $inmate) use ($rooms, $allUsers) {
-            $transferCount = fake()->numberBetween(1, 3);
-
-            for ($i = 0; $i < $transferCount; $i++) {
-                $roomFrom = $rooms->random();
-                $roomTo = $rooms->where('id', '!=', $roomFrom->id)->random();
-                $user = $allUsers->random();
-
-                RoomTransfer::factory()->create([
-                    'inmate_id' => $inmate->id,
-                    'room_from_id' => $roomFrom->id,
-                    'room_to_id' => $roomTo->id,
-                    'officer_name' => $user->name,
-                    'created_by' => $user->id,
-                ]);
-            }
-        });
-
     }
 
     /**
-     * @return list<string>
+     * @return array<int, int>
+     *
+     * @throws JsonException
      */
-    private function numberedRooms(string $prefix, int $count): array
+    private function seedBlocks(): array
     {
-        return array_map(
-            fn (int $number): string => "{$prefix}{$number}",
-            range(1, $count),
+        $blockIds = [];
+
+        foreach ($this->readJson('blocks.json') as $block) {
+            $blockModel = Block::query()->updateOrCreate(
+                ['code' => $block['code']],
+                [
+                    'name' => $block['name'],
+                    'status' => $block['status'],
+                ],
+            );
+
+            $blockIds[$block['id']] = $blockModel->id;
+        }
+
+        return $blockIds;
+    }
+
+    /**
+     * @param  array<int, int>  $blockIds
+     * @return array<string, int>
+     *
+     * @throws JsonException
+     */
+    private function seedRooms(array $blockIds): array
+    {
+        $roomIds = [];
+
+        foreach ($this->readJson('rooms.json') as $room) {
+            $roomModel = Room::query()->updateOrCreate(
+                ['code' => $room['code']],
+                [
+                    'block_id' => $blockIds[$room['block_id']],
+                    'name' => $room['name'] ?? "Kamar {$room['code']}",
+                    'capacity' => $room['capacity'],
+                    'current_occupancy' => 0,
+                    'status' => $room['status'],
+                ],
+            );
+
+            $roomIds[$room['code']] = $roomModel->id;
+        }
+
+        return $roomIds;
+    }
+
+    /**
+     * @param  array<string, int>  $roomIds
+     *
+     * @throws JsonException
+     */
+    private function seedInmates(array $roomIds): void
+    {
+        foreach ($this->readJson('inmates.json') as $inmate) {
+            Inmate::query()->updateOrCreate(
+                ['registration_number' => $inmate['registration_number']],
+                [
+                    'name' => $inmate['name'],
+                    'crime_type' => $inmate['crime_type'] ?? null,
+                    'admission_date' => $this->parseDate($inmate['admission_date'] ?? null),
+                    'placement_date' => $this->parseDate($inmate['placement_date'] ?? null),
+                    'expiration_date' => $this->parseDate($inmate['expiration_date'] ?? null),
+                    'current_room_id' => $this->roomIdForCode($inmate['current_room_code'] ?? null, $roomIds),
+                    'status' => $inmate['status'],
+                    'gender' => $inmate['gender'] ?? null,
+                ],
+            );
+        }
+    }
+
+    private function syncRoomOccupancy(): void
+    {
+        Room::query()->update(['current_occupancy' => 0]);
+
+        DB::table('inmates')
+            ->select('current_room_id', DB::raw('count(*) as aggregate'))
+            ->whereNotNull('current_room_id')
+            ->whereNull('deleted_at')
+            ->groupBy('current_room_id')
+            ->get()
+            ->each(function (object $roomOccupancy): void {
+                Room::query()
+                    ->whereKey($roomOccupancy->current_room_id)
+                    ->update(['current_occupancy' => $roomOccupancy->aggregate]);
+            });
+    }
+
+    private function parseDate(?string $date): ?CarbonImmutable
+    {
+        if ($date === null || $date === '') {
+            return null;
+        }
+
+        return CarbonImmutable::createFromFormat('d/m/Y', $date)->startOfDay();
+    }
+
+    /**
+     * @param  array<string, int>  $roomIds
+     */
+    private function roomIdForCode(?string $code, array $roomIds): ?int
+    {
+        if ($code === null || trim($code) === '') {
+            return null;
+        }
+
+        $code = trim($code);
+
+        if (isset($roomIds[$code])) {
+            return $roomIds[$code];
+        }
+
+        $codeWithoutNote = preg_replace('/\s*\([^)]*\)\s*$/', '', $code);
+
+        return is_string($codeWithoutNote) ? ($roomIds[$codeWithoutNote] ?? null) : null;
+    }
+
+    /**
+     * @return list<array<string, mixed>>
+     *
+     * @throws JsonException
+     */
+    private function readJson(string $file): array
+    {
+        return json_decode(
+            File::get(database_path("seeders/data/{$file}")),
+            true,
+            flags: JSON_THROW_ON_ERROR,
         );
     }
 }

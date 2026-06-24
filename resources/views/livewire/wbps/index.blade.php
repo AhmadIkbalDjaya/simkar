@@ -98,13 +98,16 @@
           class="border-b border-gray-200 bg-gray-50 text-xs tracking-wider text-gray-500 uppercase"
         >
           <tr>
-            <th class="px-6 py-3 font-medium">No. Registrasi</th>
-            <th class="px-6 py-3 font-medium">Nama</th>
-            <th class="px-6 py-3 font-medium">Jenis Kelamin</th>
-            <th class="px-6 py-3 font-medium">Jenis Kejahatan</th>
-            <th class="px-6 py-3 font-medium">Kamar</th>
-            <th class="px-6 py-3 font-medium">Status</th>
-            <th class="px-6 py-3 font-medium">Aksi</th>
+            <th class="px-6 py-3 font-medium whitespace-nowrap">
+              No. Registrasi
+            </th>
+            <th class="w-64 px-6 py-3 font-medium whitespace-nowrap">Nama</th>
+            <th class="px-6 py-3 font-medium whitespace-nowrap">
+              Jenis Kelamin
+            </th>
+            <th class="px-6 py-3 font-medium whitespace-nowrap">Kamar</th>
+            <th class="px-6 py-3 font-medium whitespace-nowrap">Status</th>
+            <th class="px-6 py-3 font-medium whitespace-nowrap">Aksi</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
@@ -113,14 +116,13 @@
               <td class="px-6 py-4 font-medium whitespace-nowrap text-gray-900">
                 {{ $wbp->registration_number }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-gray-600">
-                {{ $wbp->name }}
+              <td class="max-w-60 px-6 py-4 text-gray-600">
+                <div class="w-60 truncate" title="{{ $wbp->name }}">
+                  {{ $wbp->name }}
+                </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-gray-600">
-                {{ $wbp->gender === \App\Enums\GenderType::Male ? "Laki-laki" : "Perempuan" }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-gray-600">
-                {{ $wbp->crime_type ?? "-" }}
+                {{ $wbp->gender ? ($wbp->gender === \App\Enums\GenderType::Male ? "Laki-laki" : "Perempuan") : "-" }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-gray-600">
                 {{ $wbp->currentRoom?->name ?? "-" }}
