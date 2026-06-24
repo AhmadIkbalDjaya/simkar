@@ -3,63 +3,63 @@
         "block_id": 1,
         "code": "AA1",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 1,
         "code": "AA2",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 1,
         "code": "AA3",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 1,
         "code": "AA4",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 1,
         "code": "AA5",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 1,
         "code": "AA6",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 1,
         "code": "AA7",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 1,
         "code": "AA8",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 1,
         "code": "AA9",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
 
@@ -67,63 +67,63 @@
         "block_id": 1,
         "code": "AB1",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 1,
         "code": "AB2",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 1,
         "code": "AB3",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 1,
         "code": "AB4",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 1,
         "code": "AB5",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 1,
         "code": "AB6",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 1,
         "code": "AB7",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 1,
         "code": "AB8",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 1,
         "code": "AB9",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
 
@@ -131,70 +131,70 @@
         "block_id": 2,
         "code": "BA1",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 2,
         "code": "BA2",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 2,
         "code": "BA3",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 2,
         "code": "BA4",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 2,
         "code": "BA5",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 2,
         "code": "BA6",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 2,
         "code": "BA7",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 2,
         "code": "BA8",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 2,
         "code": "BA9",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 2,
         "code": "BA10",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
 
@@ -202,70 +202,70 @@
         "block_id": 2,
         "code": "BB1",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 2,
         "code": "BB2",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 2,
         "code": "BB3",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 2,
         "code": "BB4",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 2,
         "code": "BB5",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 2,
         "code": "BB6",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 2,
         "code": "BB7",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 2,
         "code": "BB8",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 2,
         "code": "BB9",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 2,
         "code": "BB10",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
 
@@ -273,35 +273,35 @@
         "block_id": 3,
         "code": "CA1",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 3,
         "code": "CA2",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 3,
         "code": "CA3",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 3,
         "code": "CA4",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 3,
         "code": "CA5",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
@@ -309,7 +309,7 @@
         "code": "CA6",
         "name": "Strap Cell",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
 
@@ -317,42 +317,42 @@
         "block_id": 3,
         "code": "CB1",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 3,
         "code": "CB2",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 3,
         "code": "CB3",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 3,
         "code": "CB4",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 3,
         "code": "CB5",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
         "block_id": 3,
         "code": "CB6",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
 
@@ -361,7 +361,7 @@
         "code": "KLINIK",
         "name": "Klinik",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
@@ -369,7 +369,7 @@
         "code": "LANSIA",
         "name": "Lansia",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     },
     {
@@ -377,7 +377,7 @@
         "code": "REHAB",
         "name": "Rehabilitasi",
         "status": "active",
-        "capacity": 0,
+        "capacity": 25,
         "current_occupancy": 0
     }
 ]
