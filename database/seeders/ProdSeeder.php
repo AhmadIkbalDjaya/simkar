@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Block;
 use App\Models\Inmate;
 use App\Models\Room;
 use App\Models\RoomTransfer;
@@ -28,14 +29,23 @@ class ProdSeeder extends Seeder
                 ...$this->numberedRooms('CA', 6),
                 ...$this->numberedRooms('CB', 6),
             ],
-            'D' => ['Klinik', 'Lansia', 'Rehab'],
+            'D' => ['KLINIK', 'LANSIA', 'REHAB'],
         ];
 
-        foreach ($rooms as $block => $roomNames) {
-            foreach ($roomNames as $name) {
+        foreach ($rooms as $block => $roomCodes) {
+            $blockModel = Block::query()->updateOrCreate(
+                ['code' => $block],
+                ['name' => "Blok {$block}"],
+            );
+
+            foreach ($roomCodes as $code) {
                 Room::query()->updateOrCreate(
-                    ['name' => $name],
-                    ['block' => $block, 'capacity' => 10],
+                    ['code' => $code],
+                    [
+                        'block_id' => $blockModel->id,
+                        'name' => "Kamar {$code}",
+                        'capacity' => 10,
+                    ],
                 );
             }
         }
@@ -84,7 +94,7 @@ class ProdSeeder extends Seeder
     private function numberedRooms(string $prefix, int $count): array
     {
         return array_map(
-            fn (int $number): string => "Kamar {$prefix}{$number}",
+            fn (int $number): string => "{$prefix}{$number}",
             range(1, $count),
         );
     }

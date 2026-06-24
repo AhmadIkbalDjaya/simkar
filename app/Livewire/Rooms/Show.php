@@ -19,7 +19,7 @@ class Show extends Component
 
     public function mount(Room $room): void
     {
-        $this->room = $room;
+        $this->room = $room->load('block');
         $this->occupants = $room->inmates;
         $this->transfers = RoomTransfer::with(['inmate', 'roomFrom', 'roomTo'])
             ->where('room_from_id', $room->id)

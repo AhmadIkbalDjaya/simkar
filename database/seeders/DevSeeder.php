@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Block;
 use App\Models\Inmate;
 use App\Models\Room;
 use App\Models\RoomTransfer;
@@ -30,10 +31,16 @@ class DevSeeder extends Seeder
         // Rooms: 4 blocks x 5 rooms each
         $rooms = collect();
         foreach (['A', 'B', 'C', 'D'] as $block) {
+            $blockModel = Block::factory()->create([
+                'code' => $block,
+                'name' => "Blok {$block}",
+            ]);
+
             for ($i = 1; $i <= 5; $i++) {
                 $rooms->push(Room::factory()->create([
+                    'block_id' => $blockModel->id,
+                    'code' => "{$block}{$i}",
                     'name' => "Kamar {$block}{$i}",
-                    'block' => $block,
                 ]));
             }
         }

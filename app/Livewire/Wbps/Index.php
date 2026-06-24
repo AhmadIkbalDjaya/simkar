@@ -24,6 +24,9 @@ class Index extends Component
     #[Url]
     public string $gender = '';
 
+    #[Url]
+    public string $status = '';
+
     #[Url(as: 'room')]
     public string $roomId = '';
 
@@ -37,6 +40,11 @@ class Index extends Component
     }
 
     public function updatedGender(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatedStatus(): void
     {
         $this->resetPage();
     }
@@ -83,6 +91,7 @@ class Index extends Component
                     ->orWhere('registration_number', 'like', "%{$this->search}%");
             }))
             ->when($this->gender, fn ($q) => $q->where('gender', $this->gender))
+            ->when($this->status, fn ($q) => $q->where('status', $this->status))
             ->when($this->roomId, fn ($q) => $q->where('current_room_id', $this->roomId))
             ->orderBy('name')
             ->paginate(10);

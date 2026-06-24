@@ -50,6 +50,38 @@
         {{ $wbp->currentRoom?->name ?? "Belum ditempatkan" }}
       </p>
     </div>
+    <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+      <p class="text-sm font-medium text-gray-500">Status</p>
+      <div class="mt-2">
+        <x-ui.badge :variant="$wbp->status->badge()">
+          {{ $wbp->status->label() }}
+        </x-ui.badge>
+      </div>
+    </div>
+    <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+      <p class="text-sm font-medium text-gray-500">Jenis Kejahatan</p>
+      <p class="mt-2 text-lg font-bold text-gray-900">
+        {{ $wbp->crime_type ?? "-" }}
+      </p>
+    </div>
+    <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+      <p class="text-sm font-medium text-gray-500">Tanggal Masuk</p>
+      <p class="mt-2 text-lg font-bold text-gray-900">
+        {{ $wbp->admission_date?->format("d M Y") ?? "-" }}
+      </p>
+    </div>
+    <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+      <p class="text-sm font-medium text-gray-500">Tanggal Penempatan</p>
+      <p class="mt-2 text-lg font-bold text-gray-900">
+        {{ $wbp->placement_date?->format("d M Y") ?? "-" }}
+      </p>
+    </div>
+    <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+      <p class="text-sm font-medium text-gray-500">Tanggal Bebas</p>
+      <p class="mt-2 text-lg font-bold text-gray-900">
+        {{ $wbp->expiration_date?->format("d M Y") ?? "-" }}
+      </p>
+    </div>
   </div>
 
   {{-- Transfer History --}}

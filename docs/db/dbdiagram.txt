@@ -1,62 +1,168 @@
 table users {
   id bigint [pk]
-  name varchar
-  email varchar [unique]
-  password varchar
 
-  role user_role
+  name varchar [not null]
+  email varchar [not null, unique]
+  password varchar [not null]
 
-  created_at timestamp
-  updated_at timestamp
+  role user_role [not null, default: 'officer']
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  deleted_at timestamp [null]
+
+  indexes {
+    email [unique]
+    role
+  }
 }
 
 table inmates {
   id bigint [pk]
 
-  registration_number varchar [unique]
-  name varchar
+  registration_number varchar [not null, unique]
+  name varchar [not null]
 
-  gender gender_type
+  gender gender_type [null]
+
+  crime_type varchar [null]
+
+  admission_date date [null]
+  placement_date date [null]
+  expiration_date date [null]
+
+  status inmate_status [not null, default: 'active']
 
   current_room_id bigint [null]
 
-  created_at timestamp
-  updated_at timestamp
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  deleted_at timestamp [null]
+
+  indexes {
+    registration_number [unique]
+    name
+    current_room_id
+    status
+    admission_date
+    expiration_date
+  }
+}
+
+Ref: inmates.current_room_id > rooms.id [
+  update: cascade,
+  delete: set null
+]
+
+table blocks {
+  id bigint [pk]
+
+  code varchar [not null, unique]
+  name varchar [not null]
+
+  status block_status [not null, default: 'active']
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  deleted_at timestamp [null]
+
+  indexes {
+    code [unique]
+    status
+  }
 }
 
 table rooms {
   id bigint [pk]
 
-  name varchar
-  block varchar [null]
+  block_id bigint [not null]
 
-  capacity int
-  current_occupancy int [default: 0]
+  code varchar [not null, unique]
+  name varchar [null]
 
-  created_at timestamp
-  updated_at timestamp
+  capacity int [not null, default: 0]
+  current_occupancy int [not null, default: 0]
+
+  status room_status [not null, default: 'active']
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  deleted_at timestamp [null]
+
+  Note: 'current_occupancy <= capacity'
+
+  indexes {
+    block_id
+    code [unique]
+    status
+    current_occupancy
+  }
 }
+
+Ref: rooms.block_id > blocks.id [
+  update: cascade,
+  delete: restrict
+]
 
 table room_transfers {
   id bigint [pk]
 
-  inmate_id bigint
+  transfer_number varchar [not null, unique]
 
-  room_from_id bigint
-  room_to_id bigint
+  inmate_id bigint [not null]
 
-  transferred_at datetime
+  room_from_id bigint [not null]
+  room_to_id bigint [not null]
 
-  officer_name varchar
-  officer_signature longtext [null]
+  reason transfer_reason_type [null]
 
   notes text [null]
 
-  created_by bigint
+  transferred_at datetime [not null]
 
-  created_at timestamp
-  updated_at timestamp
+  status transfer_status [not null, default: 'completed']
+
+  officer_name varchar [not null]
+  officer_signature longtext [null]
+
+  created_by bigint [not null]
+
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  deleted_at timestamp [null]
+
+  indexes {
+    transfer_number [unique]
+    inmate_id
+    room_from_id
+    room_to_id
+    created_by
+    transferred_at
+    status
+    (inmate_id, transferred_at)
+    (room_to_id, transferred_at)
+  }
 }
+
+Ref: room_transfers.inmate_id > inmates.id [
+  update: cascade,
+  delete: restrict
+]
+
+Ref: room_transfers.room_from_id > rooms.id [
+  update: cascade,
+  delete: restrict
+]
+
+Ref: room_transfers.room_to_id > rooms.id [
+  update: cascade,
+  delete: restrict
+]
+
+Ref: room_transfers.created_by > users.id [
+  update: cascade,
+  delete: restrict
+]
 
 enum user_role {
   admin
@@ -68,11 +174,34 @@ enum gender_type {
   female
 }
 
-Ref: inmates.current_room_id > rooms.id
+enum inmate_status {
+  active
+  released
+  transferred
+  deceased
+}
 
-Ref: room_transfers.inmate_id > inmates.id
+enum block_status {
+  active
+  inactive
+}
 
-Ref: room_transfers.room_from_id > rooms.id
-Ref: room_transfers.room_to_id > rooms.id
+enum room_status {
+  active
+  inactive
+  maintenance
+}
 
-Ref: room_transfers.created_by > users.id
+enum transfer_status {
+  completed
+  cancelled
+}
+
+enum transfer_reason_type {
+  disciplinary
+  medical
+  security
+  request
+  administration
+  other
+}

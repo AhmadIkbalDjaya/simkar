@@ -35,6 +35,40 @@
         <option value="female">Perempuan</option>
       </x-ui.select>
 
+      <x-ui.input
+        name="form.crime_type"
+        label="Jenis Kejahatan"
+        wire:model="form.crime_type"
+        placeholder="Contoh: Pencurian"
+      />
+
+      <x-ui.select name="form.status" label="Status" wire:model="form.status">
+        @foreach (\App\Enums\InmateStatus::cases() as $status)
+          <option value="{{ $status->value }}">{{ $status->label() }}</option>
+        @endforeach
+      </x-ui.select>
+
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-3">
+        <x-ui.input
+          name="form.admission_date"
+          label="Tanggal Masuk"
+          type="date"
+          wire:model="form.admission_date"
+        />
+        <x-ui.input
+          name="form.placement_date"
+          label="Tanggal Penempatan"
+          type="date"
+          wire:model="form.placement_date"
+        />
+        <x-ui.input
+          name="form.expiration_date"
+          label="Tanggal Bebas"
+          type="date"
+          wire:model="form.expiration_date"
+        />
+      </div>
+
       <x-ui.select
         name="form.current_room_id"
         label="Kamar Saat Ini"

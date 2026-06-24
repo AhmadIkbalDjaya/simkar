@@ -12,7 +12,9 @@
         <x-icons.arrow-left class="h-4 w-4" />
         Kembali
       </a>
-      <h1 class="mt-2 text-2xl font-bold text-gray-900">{{ $room->name }}</h1>
+      <h1 class="mt-2 text-2xl font-bold text-gray-900">
+        {{ $room->code }}{{ $room->name ? " — " . $room->name : "" }}
+      </h1>
     </div>
     <div class="flex flex-wrap items-center gap-3">
       <x-ui.button
@@ -41,7 +43,7 @@
     <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
       <p class="text-sm font-medium text-gray-500">Blok</p>
       <p class="mt-2 text-2xl font-bold text-gray-900">
-        {{ $room->block ?? "-" }}
+        {{ $room->block?->name ?? "-" }}
       </p>
     </div>
     <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">

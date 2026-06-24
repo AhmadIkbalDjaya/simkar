@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\BlockStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -8,18 +9,19 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('inmates', function (Blueprint $table) {
+        Schema::create('blocks', function (Blueprint $table) {
             $table->id();
-            $table->string('registration_number')->unique();
+            $table->string('code')->unique();
             $table->string('name');
-            $table->string('gender');
-            $table->foreignId('current_room_id')->nullable()->constrained('rooms')->nullOnDelete();
+            $table->string('status')->default(BlockStatus::Active->value);
             $table->timestamps();
+            $table->softDeletes();
+            $table->index('status');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('inmates');
+        Schema::dropIfExists('blocks');
     }
 };

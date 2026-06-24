@@ -44,6 +44,21 @@
         <option value="female">Perempuan</option>
       </x-ui.select>
     </div>
+    <div class="sm:w-44">
+      <x-ui.select
+        id="wbp-status"
+        label="Filter status"
+        label-sr-only
+        wire:model.live="status"
+      >
+        <option value="">Semua Status</option>
+        @foreach (\App\Enums\InmateStatus::cases() as $statusOption)
+          <option value="{{ $statusOption->value }}">
+            {{ $statusOption->label() }}
+          </option>
+        @endforeach
+      </x-ui.select>
+    </div>
     @php
       $roomOptions = $rooms->map(
         fn ($room) => [
@@ -86,7 +101,9 @@
             <th class="px-6 py-3 font-medium">No. Registrasi</th>
             <th class="px-6 py-3 font-medium">Nama</th>
             <th class="px-6 py-3 font-medium">Jenis Kelamin</th>
+            <th class="px-6 py-3 font-medium">Jenis Kejahatan</th>
             <th class="px-6 py-3 font-medium">Kamar</th>
+            <th class="px-6 py-3 font-medium">Status</th>
             <th class="px-6 py-3 font-medium">Aksi</th>
           </tr>
         </thead>
@@ -103,7 +120,15 @@
                 {{ $wbp->gender === \App\Enums\GenderType::Male ? "Laki-laki" : "Perempuan" }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-gray-600">
+                {{ $wbp->crime_type ?? "-" }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-gray-600">
                 {{ $wbp->currentRoom?->name ?? "-" }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <x-ui.badge :variant="$wbp->status->badge()">
+                  {{ $wbp->status->label() }}
+                </x-ui.badge>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center gap-2">
