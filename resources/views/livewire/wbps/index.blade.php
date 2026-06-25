@@ -9,12 +9,48 @@
         Kelola data Warga Binaan Pemasyarakatan.
       </p>
     </div>
-    @if (auth()->user()->role === \App\Enums\UserRole::Admin)
-      <x-ui.button :href="route('wbps.create')" wire:navigate>
-        <x-icons.plus class="h-4 w-4" />
-        Tambah WBP
+    <div class="flex flex-wrap items-center gap-3">
+      <x-ui.button
+        wire:click="exportPdf"
+        wire:loading.attr="disabled"
+        variant="secondary"
+      >
+        <x-icons.spinner
+          wire:loading
+          wire:target="exportPdf"
+          class="h-4 w-4 animate-spin"
+        />
+        <x-icons.document
+          wire:loading.remove
+          wire:target="exportPdf"
+          class="h-4 w-4 text-red-500"
+        />
+        Export PDF
       </x-ui.button>
-    @endif
+      <x-ui.button
+        wire:click="exportExcel"
+        wire:loading.attr="disabled"
+        variant="secondary"
+      >
+        <x-icons.spinner
+          wire:loading
+          wire:target="exportExcel"
+          class="h-4 w-4 animate-spin"
+        />
+        <x-icons.document
+          wire:loading.remove
+          wire:target="exportExcel"
+          class="h-4 w-4 text-emerald-500"
+        />
+        Export Excel
+      </x-ui.button>
+      @if (auth()->user()->role === \App\Enums\UserRole::Admin)
+        <x-ui.button :href="route('wbps.create')" wire:navigate>
+          <x-icons.plus class="h-4 w-4" />
+          Tambah WBP
+        </x-ui.button>
+      @endif
+    </div>
   </div>
 
   {{-- Filters --}}
