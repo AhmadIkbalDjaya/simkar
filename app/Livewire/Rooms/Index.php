@@ -3,6 +3,7 @@
 namespace App\Livewire\Rooms;
 
 use App\Enums\UserRole;
+use App\Models\Block;
 use App\Models\Room;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Layout;
@@ -20,15 +21,15 @@ class Index extends Component
     #[Url(as: 'q')]
     public string $search = '';
 
-    #[Url]
-    public string $block = '';
+    #[Url(as: 'block')]
+    public string $blockId = '';
 
     public function updatedSearch(): void
     {
         $this->resetPage();
     }
 
-    public function updatedBlock(): void
+    public function updatedBlockId(): void
     {
         $this->resetPage();
     }
@@ -63,12 +64,15 @@ class Index extends Component
     public function render(): View
     {
         $rooms = Room::query()
-            ->when($this->search, fn ($q) => $q->where('name', 'like', "%{$this->search}%"))
-            ->when($this->block, fn ($q) => $q->where('block', $this->block))
-            ->orderBy('name')
+            ->with('block')
+            ->when($this->search, fn ($q) => $q->where(fn ($q) => $q
+                ->where('code', 'like', "%{$this->search}%")
+                ->orWhere('name', 'like', "%{$this->search}%")))
+            ->when($this->blockId, fn ($q) => $q->where('block_id', $this->blockId))
+            ->orderBy('code')
             ->paginate(10);
 
-        $blocks = Room::whereNotNull('block')->distinct()->pluck('block')->sort()->values();
+        $blocks = Block::orderBy('code')->get(['id', 'code', 'name']);
 
         return view('livewire.rooms.index', compact('rooms', 'blocks'));
     }

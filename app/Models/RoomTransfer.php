@@ -2,31 +2,39 @@
 
 namespace App\Models;
 
+use App\Enums\TransferReasonType;
+use App\Enums\TransferStatus;
 use Database\Factories\RoomTransferFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[Fillable([
+    'transfer_number',
     'inmate_id',
     'room_from_id',
     'room_to_id',
+    'reason',
+    'notes',
     'transferred_at',
+    'status',
     'officer_name',
     'officer_signature',
-    'notes',
     'created_by',
 ])]
 class RoomTransfer extends Model
 {
     /** @use HasFactory<RoomTransferFactory> */
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected function casts(): array
     {
         return [
+            'reason' => TransferReasonType::class,
             'transferred_at' => 'datetime',
+            'status' => TransferStatus::class,
         ];
     }
 

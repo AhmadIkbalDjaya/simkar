@@ -3,7 +3,9 @@
 namespace App\Livewire\Rooms;
 
 use App\Enums\UserRole;
+use App\Models\Block;
 use App\Models\Room;
+use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -36,5 +38,12 @@ class Edit extends Component
         session()->flash('success', 'Kamar berhasil diperbarui.');
 
         $this->redirect(route('rooms.show', $this->room), navigate: true);
+    }
+
+    public function render(): View
+    {
+        $blocks = Block::orderBy('code')->get(['id', 'name']);
+
+        return view('livewire.rooms.edit', compact('blocks'));
     }
 }

@@ -11,12 +11,16 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('role')->default(UserRole::Officer->value)->after('password');
+            $table->softDeletes();
+            $table->index('role');
         });
     }
 
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->dropIndex(['role']);
+            $table->dropSoftDeletes();
             $table->dropColumn('role');
         });
     }

@@ -9,12 +9,48 @@
         Kelola data Warga Binaan Pemasyarakatan.
       </p>
     </div>
-    @if (auth()->user()->role === \App\Enums\UserRole::Admin)
-      <x-ui.button :href="route('wbps.create')" wire:navigate>
-        <x-icons.plus class="h-4 w-4" />
-        Tambah WBP
+    <div class="flex flex-wrap items-center gap-3">
+      <x-ui.button
+        wire:click="exportPdf"
+        wire:loading.attr="disabled"
+        variant="secondary"
+      >
+        <x-icons.spinner
+          wire:loading
+          wire:target="exportPdf"
+          class="h-4 w-4 animate-spin"
+        />
+        <x-icons.document
+          wire:loading.remove
+          wire:target="exportPdf"
+          class="h-4 w-4 text-red-500"
+        />
+        Export PDF
       </x-ui.button>
-    @endif
+      <x-ui.button
+        wire:click="exportExcel"
+        wire:loading.attr="disabled"
+        variant="secondary"
+      >
+        <x-icons.spinner
+          wire:loading
+          wire:target="exportExcel"
+          class="h-4 w-4 animate-spin"
+        />
+        <x-icons.document
+          wire:loading.remove
+          wire:target="exportExcel"
+          class="h-4 w-4 text-emerald-500"
+        />
+        Export Excel
+      </x-ui.button>
+      @if (auth()->user()->role === \App\Enums\UserRole::Admin)
+        <x-ui.button :href="route('wbps.create')" wire:navigate>
+          <x-icons.plus class="h-4 w-4" />
+          Tambah WBP
+        </x-ui.button>
+      @endif
+    </div>
   </div>
 
   {{-- Filters --}}
@@ -42,6 +78,21 @@
         <option value="">Semua Gender</option>
         <option value="male">Laki-laki</option>
         <option value="female">Perempuan</option>
+      </x-ui.select>
+    </div>
+    <div class="sm:w-44">
+      <x-ui.select
+        id="wbp-status"
+        label="Filter status"
+        label-sr-only
+        wire:model.live="status"
+      >
+        <option value="">Semua Status</option>
+        @foreach (\App\Enums\InmateStatus::cases() as $statusOption)
+          <option value="{{ $statusOption->value }}">
+            {{ $statusOption->label() }}
+          </option>
+        @endforeach
       </x-ui.select>
     </div>
     @php
@@ -83,11 +134,16 @@
           class="border-b border-gray-200 bg-gray-50 text-xs tracking-wider text-gray-500 uppercase"
         >
           <tr>
-            <th class="px-6 py-3 font-medium">No. Registrasi</th>
-            <th class="px-6 py-3 font-medium">Nama</th>
-            <th class="px-6 py-3 font-medium">Jenis Kelamin</th>
-            <th class="px-6 py-3 font-medium">Kamar</th>
-            <th class="px-6 py-3 font-medium">Aksi</th>
+            <th class="px-6 py-3 font-medium whitespace-nowrap">
+              No. Registrasi
+            </th>
+            <th class="w-64 px-6 py-3 font-medium whitespace-nowrap">Nama</th>
+            <th class="px-6 py-3 font-medium whitespace-nowrap">
+              Jenis Kelamin
+            </th>
+            <th class="px-6 py-3 font-medium whitespace-nowrap">Kamar</th>
+            <th class="px-6 py-3 font-medium whitespace-nowrap">Status</th>
+            <th class="px-6 py-3 font-medium whitespace-nowrap">Aksi</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
@@ -96,14 +152,21 @@
               <td class="px-6 py-4 font-medium whitespace-nowrap text-gray-900">
                 {{ $wbp->registration_number }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-gray-600">
-                {{ $wbp->name }}
+              <td class="max-w-60 px-6 py-4 text-gray-600">
+                <div class="w-60 truncate" title="{{ $wbp->name }}">
+                  {{ $wbp->name }}
+                </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-gray-600">
-                {{ $wbp->gender === \App\Enums\GenderType::Male ? "Laki-laki" : "Perempuan" }}
+                {{ $wbp->gender ? ($wbp->gender === \App\Enums\GenderType::Male ? "Laki-laki" : "Perempuan") : "-" }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-gray-600">
                 {{ $wbp->currentRoom?->name ?? "-" }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <x-ui.badge :variant="$wbp->status->badge()">
+                  {{ $wbp->status->label() }}
+                </x-ui.badge>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center gap-2">

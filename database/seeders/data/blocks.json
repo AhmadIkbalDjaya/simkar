@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "code": "A",
+        "name": "Blok A",
+        "status": "active"
+    },
+    {
+        "id": 2,
+        "code": "B",
+        "name": "Blok B",
+        "status": "active"
+    },
+    {
+        "id": 3,
+        "code": "C",
+        "name": "Blok C",
+        "status": "active"
+    },
+    {
+        "id": 4,
+        "code": "D",
+        "name": "Blok D",
+        "status": "active"
+    }
+]

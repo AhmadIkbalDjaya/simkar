@@ -26,7 +26,7 @@
         label="Cari kamar"
         label-sr-only
         wire:model.live.debounce.300ms="search"
-        placeholder="Cari nama kamar..."
+        placeholder="Cari kode atau nama kamar..."
       />
     </div>
     <div class="sm:w-48">
@@ -34,11 +34,11 @@
         id="room-block"
         label="Filter blok"
         label-sr-only
-        wire:model.live="block"
+        wire:model.live="blockId"
       >
         <option value="">Semua Blok</option>
         @foreach ($blocks as $b)
-          <option value="{{ $b }}">Blok {{ $b }}</option>
+          <option value="{{ $b->id }}">{{ $b->name }}</option>
         @endforeach
       </x-ui.select>
     </div>
@@ -57,6 +57,7 @@
           class="border-b border-gray-200 bg-gray-50 text-xs tracking-wider text-gray-500 uppercase"
         >
           <tr>
+            <th class="px-6 py-3 font-medium">Kode</th>
             <th class="px-6 py-3 font-medium">Nama</th>
             <th class="px-6 py-3 font-medium">Blok</th>
             <th class="px-6 py-3 font-medium">Kapasitas</th>
@@ -69,10 +70,13 @@
           @foreach ($rooms as $room)
             <tr class="hover:bg-gray-50">
               <td class="px-6 py-4 font-medium whitespace-nowrap text-gray-900">
-                {{ $room->name }}
+                {{ $room->code }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-gray-600">
-                {{ $room->block ?? "-" }}
+                {{ $room->name ?? "-" }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-gray-600">
+                {{ $room->block?->name ?? "-" }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-gray-600">
                 {{ $room->capacity }}

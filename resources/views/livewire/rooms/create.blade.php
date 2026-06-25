@@ -15,18 +15,25 @@
   {{-- Form --}}
   <x-ui.card class="max-w-2xl">
     <form wire:submit="save" class="space-y-5">
+      <x-ui.select name="form.block_id" label="Blok" wire:model="form.block_id">
+        <option value="">Pilih blok</option>
+        @foreach ($blocks as $block)
+          <option value="{{ $block->id }}">{{ $block->name }}</option>
+        @endforeach
+      </x-ui.select>
+
+      <x-ui.input
+        name="form.code"
+        label="Kode Kamar"
+        wire:model="form.code"
+        placeholder="Contoh: A1"
+      />
+
       <x-ui.input
         name="form.name"
         label="Nama Kamar"
         wire:model="form.name"
         placeholder="Contoh: Kamar A1"
-      />
-
-      <x-ui.input
-        name="form.block"
-        label="Blok"
-        wire:model="form.block"
-        placeholder="Contoh: A"
       />
 
       <x-ui.input
