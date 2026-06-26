@@ -29,6 +29,21 @@ class RoomTransfer extends Model
     /** @use HasFactory<RoomTransferFactory> */
     use HasFactory, SoftDeletes;
 
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(function (self $roomTransfer): void {
+            if (empty($roomTransfer->transfer_number)) {
+                do {
+                    $number = 'TRF-'.str_pad(rand(0, 99999), 5, '0', STR_PAD_LEFT);
+                } while (self::where('transfer_number', $number)->exists());
+
+                $roomTransfer->transfer_number = $number;
+            }
+        });
+    }
+
     protected function casts(): array
     {
         return [
