@@ -225,7 +225,10 @@
                     >
                       {{ strtoupper(substr($transfer->inmate->name, 0, 1)) }}
                     </span>
-                    <span class="font-semibold whitespace-nowrap text-gray-900">
+                    <span
+                      class="block max-w-40 truncate font-semibold text-gray-900"
+                      title="{{ $transfer->inmate->name }}"
+                    >
                       {{ $transfer->inmate->name }}
                     </span>
                   </div>
@@ -253,7 +256,10 @@
                     {{ $transfer->transferred_at->format("H:i") }} WITA
                   </p>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-gray-600">
+                <td
+                  class="max-w-40 truncate px-6 py-4 text-gray-600"
+                  title="{{ $transfer->officer_name }}"
+                >
                   {{ $transfer->officer_name }}
                 </td>
                 <td class="px-4 py-4 text-right">
