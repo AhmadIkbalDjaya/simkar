@@ -39,23 +39,14 @@
     $roomOptions = $availableRooms->map(
       fn ($room) => [
         "value" => $room->id,
-        "label" =>
-          $room->name .
-          " (" .
-          $room->current_occupancy .
-          "/" .
-          $room->capacity .
-          ")" .
-          ($room->current_occupancy >= $room->capacity ? " - Penuh" : ""),
+        "label" => $room->name . " (" . $room->current_occupancy . "/" . $room->capacity . ")" . ($room->current_occupancy >= $room->capacity ? " - Penuh" : ""),
         "search" => $room->name,
       ],
     );
     $selectedInmate = $inmates->firstWhere("id", $inmate_id);
     $selectedRoomTo = $availableRooms->firstWhere("id", $room_to_id);
     $targetCapacity = $selectedRoomTo?->capacity ?: 0;
-    $targetProjectedOccupancy = $selectedRoomTo
-      ? min($selectedRoomTo->current_occupancy + 1, $selectedRoomTo->capacity)
-      : 0;
+    $targetProjectedOccupancy = $selectedRoomTo ? min($selectedRoomTo->current_occupancy + 1, $selectedRoomTo->capacity) : 0;
     $targetOccupancyPercent = $targetCapacity ? round(($targetProjectedOccupancy / $targetCapacity) * 100) : 0;
   @endphp
 

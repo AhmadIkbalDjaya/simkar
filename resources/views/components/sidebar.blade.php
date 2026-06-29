@@ -14,7 +14,9 @@
   </div>
 
   {{-- Navigation --}}
-  <nav class="flex-1 space-y-1 overflow-y-auto px-3 py-4">
+  <nav
+    class="flex-1 space-y-1 overflow-y-auto px-3 py-4 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-600 [&::-webkit-scrollbar-thumb]:hover:bg-gray-500 [&::-webkit-scrollbar-track]:bg-gray-800"
+  >
     {{-- Dashboard --}}
     <a
       href="{{ route("dashboard") }}"
