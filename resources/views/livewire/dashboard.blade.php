@@ -198,7 +198,7 @@
 
       {{-- Tablet and desktop table --}}
       <div class="hidden overflow-x-auto xl:block">
-        <table class="w-full min-w-[760px] text-left text-sm">
+        <table class="w-full min-w-190 text-left text-sm">
           <thead
             class="border-b border-gray-200 bg-gray-50/80 text-xs font-semibold tracking-wide text-gray-500 uppercase"
           >

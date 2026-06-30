@@ -130,18 +130,23 @@
           class="border-b border-gray-200 bg-gray-50 text-xs tracking-wider text-gray-500 uppercase"
         >
           <tr>
-            <th class="px-6 py-3 font-medium">WBP</th>
-            <th class="px-6 py-3 font-medium">Kamar Asal</th>
-            <th class="px-6 py-3 font-medium">Kamar Tujuan</th>
-            <th class="px-6 py-3 font-medium">Waktu</th>
-            <th class="px-6 py-3 font-medium">Petugas</th>
-            <th class="px-6 py-3 font-medium">Catatan</th>
+            <th class="px-6 py-3 font-medium whitespace-nowrap">WBP</th>
+            <th class="px-6 py-3 font-medium whitespace-nowrap">Kamar Asal</th>
+            <th class="px-6 py-3 font-medium whitespace-nowrap">
+              Kamar Tujuan
+            </th>
+            <th class="px-6 py-3 font-medium whitespace-nowrap">Waktu</th>
+            <th class="px-6 py-3 font-medium whitespace-nowrap">Petugas</th>
+            <th class="px-6 py-3 font-medium whitespace-nowrap">Catatan</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
           @foreach ($mutations as $mutation)
             <tr class="hover:bg-gray-50">
-              <td class="px-6 py-4 font-medium whitespace-nowrap text-gray-900">
+              <td
+                class="max-w-40 truncate px-6 py-4 font-medium whitespace-nowrap text-gray-900"
+                title="{{ $mutation->inmate->name }}"
+              >
                 {{ $mutation->inmate->name }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-gray-600">
@@ -153,7 +158,10 @@
               <td class="px-6 py-4 whitespace-nowrap text-gray-600">
                 {{ $mutation->transferred_at->format("d M Y H:i") }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-gray-600">
+              <td
+                class="max-w-40 truncate px-6 py-4 whitespace-nowrap text-gray-600"
+                title="{{ $mutation->officer_name }}"
+              >
                 {{ $mutation->officer_name }}
               </td>
               <td class="max-w-xs truncate px-6 py-4 text-gray-600">
